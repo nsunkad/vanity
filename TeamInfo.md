@@ -2,18 +2,18 @@
 
 ## Basic Information
 
-|   Info      |        Description     |
+|   Info      |       Description      |
 | ----------- | ---------------------- |
-| TeamID      |        Team-000        |
-| TeamName    |         sample         |
-| Captain     |       Abdu Alawini     |
-| Captain     |  alawini@illinois.edu  |
-| Member1     |        Kevin Pei       |
-| Member1     |   kevin2@illinois.edu  |
-| Member2     |                        |
-| Member2     |                        |
-| Member3     |                        |
-| Member3     |                        |
+| TeamID      |        Team-096        |
+| TeamName    |       MojoDojoDB       |
+| Captain     |       Julie Lima       |
+| Captain     |  julie11@illinois.edu  |
+| Member1     |       Nitya Sunkad     |
+| Member1     | nsunkad2@illinois.edu  |
+| Member2     |       Ria Desai        |
+| Member2     | rndesai2@illinois.edu  |
+| Member3     |     Oju Chaudhary      |
+| Member3     | ojaswee2@illinois.edu  |
 
 ## Project Information
 
