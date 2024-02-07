@@ -25,7 +25,7 @@
 
 ## Project Summary
 
-Vanity is a social media service for people to connect over shared interests in makeup and skincare and discover new products. We primarily target users of beauty products and provide two main features —
+vanity is a social media service for people to connect over shared interests in makeup and skincare and discover new products. We primarily target users of beauty products and provide two main features —
 
 1. A product reviews feature that enables users to look up specific products and read or write reviews by customers who previously purchased the product
 2. A social media service that enables users to connect with friends and view each other’s “makeup bags” — in effect to see which specific products their friends purchased.
