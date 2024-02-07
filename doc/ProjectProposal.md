@@ -82,6 +82,8 @@ search features_
 
 ## 1 - Welcome page
 
+![WelcomePageUI](vanity-mockup/1WelcomePage.png)
+
 **Buttons**
 
 ```log in``` _leads to screen 2._
@@ -90,6 +92,8 @@ search features_
 
 
 ## 2 - Login page
+
+![LoginPageUI](vanity-mockup/2LoginPage.png)
 
 **Text inputs:**
 
@@ -102,6 +106,8 @@ search features_
 ``` submit ```
 
 ## 3 - Sign up page
+
+![SignUpPageUI](vanity-mockup/3SignUpPage.png)
 
 **Text inputs:**
 
@@ -117,6 +123,8 @@ search features_
 
 ## 4 - Bag page
 
+![BagPageUI](vanity-mockup/4BagPage.png)
+
 _Displays contents of any makeup bag (user’s or friends’)_
 
 **Buttons:**
@@ -127,6 +135,8 @@ Hamburger menu _leads to screen 5_
 
 ## 5 - Hamburger menu
 
+![HamburgerMenuUI](vanity-mockup/5HamburgerMenu.png)
+
 **Buttons:**
 
 ```my bag``` _leads to screen 4_
@@ -136,6 +146,8 @@ Hamburger menu _leads to screen 5_
 ```product reviews``` _leads to screen 7_
 
 ## 6 - Friends search page
+
+![FriendsPageUI](vanity-mockup/6FriendsPage.png)
 
 **Text inputs:**
 
@@ -150,6 +162,8 @@ Hamburger menu _leads to screen 5_
 
 ## 7 - Products search page
 
+![ProductsSearchPageUI](vanity-mockup/7ProductsSearchPage.png)
+
 **Text inputs:**
 
 ```Product barcode```
@@ -162,6 +176,8 @@ Hamburger menu _leads to screen 5_
 
 
 ## 8 - Product reviews page
+
+![ProductReviewsUI](vanity-mockup/8ProductReviews.png)
 
 **Scrollable elements:**
 
