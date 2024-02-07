@@ -20,13 +20,17 @@ Makeup and skincare users are always in the market for more products, so we will
 
 As a whole, this application is a digital embodiment of the inclusive, lavish, and friendly beauty community.
 
-### What would be a good creative component
+### Creative Component
 
-We plan to implement a user authentication feature within our website. Having a sign-in feature allows us to associate a specific “makeup bag” with a user, and also allows that user to see what bags are associated with their friends. Thisallows for a personalized experience within the app, and provides a jumping off point for future capabilities within the app, like “friending” other users. Additionally, our current specifications require users to manually enter in the barcode of the beauty product that theywish to look up and/or add to their bag. If time and bandwidth permit, a potential enhancement to make is implementing a barcode scanner feature to make barcode entry less tedious.
+We plan to implement a user authentication feature within our website. Having a sign-in feature allows us to associate a specific “makeup bag” with a user, and also allows that user to see what bags are associated with their friends. This allows for a personalized experience within the app, and provides a jumping off point for future capabilities within the app, like “friending” other users. 
+
+Additionally, our current specifications require users to manually enter in the barcode of the beauty product that they wish to look up and/or add to their bag. If time and bandwidth permit, a potential enhancement to make is implementing a barcode scanner feature to make barcode entry less tedious.
 
 ### Usefulness
 
-Our web application is useful for people who wear makeup and who would like to share their favorite products with their friends in a streamlined and social media-like way. At the same time, they can search for a friend by username to learn more about their friends’ favorite products, which they can then try for themselves. Furthermore, every product on the app will have reviews that have been compiled from online resources. From our personal experiences, it can sometimes be frustrating checking several different websites (amazon, Reddit, etc.) just to see a variety of reviews for a product, when deciding whether to purchase it. To our knowledge, no web or mobile app lets you compile a “makeup bag” of your current products to share with friends. In our app, we are creating this new functionality while also aggregating many reviews in one place for easy access by users.
+Our web application is useful for people who wear makeup and who would like to share their favorite products with their friends in a streamlined and social media-like way. At the same time, they are able to search for a friend by username to learn more about their friends’ favorite products, which they can then try for themselves. 
+
+Furthermore, every product on the app will have reviews that have been compiled from online resources. From our personal experiences, it can sometimes be frustrating checking several different websites (amazon, reddit, etc.) just to see a variety of reviews for a product, when deciding whether to purchase it. To our knowledge, there is also no web or mobile app that lets you compile a “makeup bag” of your current products to share with friends. In our app, we are creating this new functionality while also aggregating many reviews in one place for easy access by users.
 
 ### Realness
 
