@@ -14,7 +14,11 @@ Currently, there exists no form of online app (besides general purpose apps like
 
 ### Description
 
-This application will be a “makeup bag” in digital form. Users will be able to add products to their personal makeup bag as they purchase products in reallife, and they will be able to view their friends' makeup bags to see their favorite products and get recommendations for themselves when they are in the market. Makeup and skincare users are always in the market for more products, so we will also have a search bar to explore new products and see their reviews. As a whole, this application is a digital embodiment of the inclusive, lavish, and friendly beauty community.
+This application will be a “makeup bag” in digital form. Users will be able to add products to their personal makeup bag as they purchase products in real life, and they will be able to view their friends' makeup bags to see their favorite products and get recommendations for themselves when they are in the market. In real life, many friends regularly share product recommendations. This is a form of bonding that the makeup and skincare community thrives on. With a minimal, attractive user interface, this app will build the bonds of many makeup and skincare users. By maintaining one's own bag, a user will visually be able to see every product they own. When viewing friends bags, users can explore what is making their friends' skin and makeup so beautiful!
+
+Makeup and skincare users are always in the market for more products, so we will also have a search bar to explore new products and see their reviews. Because of the sheer quantity of brands and products, hearing from actual people is vital. Allowing a user to click on their friend's favorite makeup product and simultaneously view reviews, the user will be more confident about their decision if they want to purchase it, too. This will also increase the reach of brands, because they will have one more platform where users can find them.
+
+As a whole, this application is a digital embodiment of the inclusive, lavish, and friendly beauty community.
 
 ### What would be a good creative component
 
