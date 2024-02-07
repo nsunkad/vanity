@@ -177,7 +177,7 @@ Hamburger menu _leads to screen 5_
 
 ## 8 - Product reviews page
 
-![ProductReviewsUI](vanity-mockup/8ProductReviews.png)
+![ProductReviewsUI](vanity-mockup/8ProductReviewsPage.png)
 
 **Scrollable elements:**
 
