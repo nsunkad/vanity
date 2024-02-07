@@ -93,9 +93,9 @@ search features_
 
 **Text inputs:**
 
-``` username: ```
+``` username ```
 
-``` password:  ```
+``` password  ```
 
 **Buttons**
 
@@ -105,11 +105,11 @@ search features_
 
 **Text inputs:**
 
-``` username: ```
+``` username ```
 
-``` password: ```
+``` password ```
 
-``` password confirmation: ```
+``` password confirmation ```
 
 **Buttons:**
 
@@ -163,7 +163,7 @@ Hamburger menu _leads to screen 5_
 
 ## 8 - Product reviews page
 
-**Scrollable elements**
+**Scrollable elements:**
 
 Reviews section
 
