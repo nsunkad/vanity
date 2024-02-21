@@ -1,0 +1,35 @@
+Here are the different components that will be used in vanity.
+
+- title
+
+- buttons
+    1. LogInButton
+    2. SignUpButton
+    3. SubmitButton
+
+- inputs
+    4. UsernameInput
+    5. PasswordInput
+    6. PasswordConfirmInput
+
+7. UserAuthentication
+
+8. HamburgerMenu
+
+9. PlusIcon
+
+10. MyBag
+
+11. FriendBag
+
+12. FriendList
+
+13. Product
+
+14. ProductSearchBar
+
+reviews
+    15. Review
+    16. ReviewList
+
+17. BarcodeScanner
