@@ -1,5 +1,6 @@
 import React from 'react';
 import './WelcomePage.css'; // Assuming your CSS file is named WelcomePage.css
+import {LogInButton, SignUpButton} from '../../components/general/Buttons.js';
 
 function WelcomePage() {
   // You might use a routing solution like React Router for navigation
@@ -16,8 +17,8 @@ function WelcomePage() {
     <div className="welcome-container">
       <h1 className="welcome-title">vanity.</h1>
       <div className="welcome-actions">
-        <button onClick={navigateToLogin} className="welcome-button">log in</button>
-        <button onClick={navigateToSignUp} className="welcome-button">sign up</button>
+        <LogInButton/>
+        <SignUpButton/>
       </div>
     </div>
   );

@@ -1,38 +1,43 @@
-// // Buttons.js
-// import React from 'react';
-// import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import "./Buttons.css";
 
-// // LoginButton Component
-// export function LoginButton() {
-//   const navigate = useNavigate();
+// LoginButton Component
+export function LogInButton() {
+  const navigate = useNavigate();
 
-//   const navigateToLogin = () => {
-//     navigate('/login');
-//   };
+  const navigateToLogin = () => {
+    navigate('/login');
+  };
 
-//   return (
-//     <button onClick={navigateToLogin} className="welcome-button">log in</button>
-//   );
-// }
+  return (
+    <button onClick={navigateToLogin} className="vanity-button">log in</button>
+  );
+}
 
-// // SignUpButton Component
-// export function SignUpButton() {
-//   const navigate = useNavigate();
+// SignUpButton Component
+export function SignUpButton() {
+  const navigate = useNavigate();
 
-//   const navigateToSignUp = () => {
-//     navigate('/signup');
-//   };
+  const navigateToSignUp = () => {
+    navigate('/signup');
+  };
 
-//   return (
-//     <button onClick={navigateToSignUp} className="welcome-button">sign up</button>
-//   );
-// }
+  return (
+    <button onClick={navigateToSignUp} className="vanity-button">sign up</button>
+  );
+}
 
-// // Placeholder for SubmitButton Component
-// // You can define and export the SubmitButton similarly
-// export function SubmitButton() {
-//   // Implementation for SubmitButton
-//   return (
-//     <button className="submit-button">Submit</button>
-//   );
-// }
+// Placeholder for SubmitButton Component
+// You can define and export the SubmitButton similarly
+export function SubmitButton() {
+    const navigate = useNavigate();
+
+    const navigateToSignUp = () => {
+      navigate('/mybag');
+    };
+
+  return (
+    <button className="vanity-button">submit</button>
+  );
+}
