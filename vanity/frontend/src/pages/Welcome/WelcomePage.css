@@ -36,6 +36,7 @@
     font-size: 24px;
     cursor: pointer;
     padding: 8px 16px;
+    font-family: Typewriter;
   }
   
   .welcome-button:hover {
