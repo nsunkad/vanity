@@ -1,7 +1,7 @@
 @font-face {
     font-family: 'TypeWriter'; /* Give your font a name to be used in your CSS */
     src: local('TypeWriter'), /* This will attempt to use the local font if it matches the name */
-         url('/Users/owner/Documents/GitHub/sp24-cs411-team097-MojoDojoDB/vanity/frontend/assets/JMH-Typewriter-Thin.ttf') format('truetype'); /* Path to your font file */
+         url('../../../assets/JMH-Typewriter-Thin.ttf') format('truetype'); /* Path to your font file */
     font-weight: normal;
     font-style: normal;
   }
