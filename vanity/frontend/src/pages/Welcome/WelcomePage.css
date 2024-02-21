@@ -1,0 +1,43 @@
+@font-face {
+    font-family: 'TypeWriter'; /* Give your font a name to be used in your CSS */
+    src: local('TypeWriter'), /* This will attempt to use the local font if it matches the name */
+         url('/Users/owner/Documents/GitHub/sp24-cs411-team097-MojoDojoDB/vanity/frontend/assets/JMH-Typewriter-Thin.ttf') format('truetype'); /* Path to your font file */
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  .welcome-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* This will take the full height of the viewport */
+    background-color: #FFC0CB; /* This is a pink color similar to the one in the image */
+    font-family: Typewriter; /* Replace with the font you're using */
+  }
+  
+  .welcome-title {
+    font-size: 64px; /* Adjust the size as needed */
+    color: white;
+    margin: 0;
+    margin-bottom: 32px; /* Space between title and buttons */
+  }
+  
+  .welcome-actions {
+    display: flex;
+    flex-direction: row;
+    gap: 16px; /* Adjust the space between buttons as needed */
+  }
+  
+  .welcome-button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 8px 16px;
+  }
+  
+  .welcome-button:hover {
+    text-decoration: underline;
+  }
