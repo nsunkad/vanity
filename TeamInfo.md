@@ -4,7 +4,7 @@
 
 |   Info      |       Description      |
 | ----------- | ---------------------- |
-| TeamID      |        Team-097        |
+| TeamID      |        Team097        |
 | TeamName    |       MojoDojoDB       |
 | Captain     |       Julie Lima       |
 | Captain     |  julie11@illinois.edu  |
