@@ -22,9 +22,7 @@ As a whole, this application is a digital embodiment of the inclusive, lavish, a
 
 ### Creative Component
 
-We plan to implement a user authentication feature within our website. Having a sign-in feature allows us to associate a specific “makeup bag” with a user, and also allows that user to see what bags are associated with their friends. This allows for a personalized experience within the app, and provides a jumping off point for future capabilities within the app, like “friending” other users. 
-
-Additionally, our current specifications require users to manually enter in the barcode of the beauty product that they wish to look up and/or add to their bag. If time and bandwidth permit, a potential enhancement to make is implementing a barcode scanner feature to make barcode entry less tedious.
+Our creative component will be a personalized recommendation system. We will design an algorithm that uses the current products in a user’s makeup bag to determine which new products the user is likely to be interested in. We will also incorporate this into the product search feature, where a user might search for a general tag (e.g. “moisturizer”) and the algorithm will order its best recommendations for that specific tag at the top of the page.
 
 ### Usefulness
 
@@ -34,13 +32,13 @@ Furthermore, every product on the app will have reviews that have been compiled 
 
 ### Realness
 
-We will be using two main data sources: A barcode-matching database for and a data set containing reviews for multiple makeup products:
+We will be using two main data sources: A beauty (skincare, makeup, etc.) product database and a data set containing reviews for these products:
 
-1. **Upcdatabase.org**  _This database offers information for over 4.3 million barcode numbers worldwide, with information on 4 attributes: the associated product names, pricing, manufacturer, and quantities. It also provides detailed API documentation to integrate the database with the rest of our application._
+1. **Sephora Products**  _This is a Kaggle dataset that offers information about over 8000 skincare and beauty products that are sold at Sephora. This dataset includes product names, pricing, brands, rating, love_count, and more._
 
-2. **Cosmetics and Beauty Products Reviews - Top Brands** _This database is a .csv dataset containing reviews and customer ratings for beauty products. For each of the 7.89 million reviews found in the data set, information is given for up to 18 attributes: product ID, product name, brand name, review id, review title, review text, review author, review date, review rating, whether the reviewer is a buyer, whether the reviewer is a pro user, review label, mrp, price, product rating, product rating count, product tags, and product URL._
+2. **Cosmetics and Beauty Products Reviews - Top Brands** _This is a Kaggle dataset that easily integrates with the Sephora Products dataset due to the ProductId key linking the reviews to the appropriate products. This dataset contains reviews and customer ratings for the beauty products in the Sephora products dataset. Along with the review text itself, each row contains the product id, author id, rating, whether they recommend the product, the level of helpfulness of the review, and more._
 
-Using the UPC database, we will obtain the name of the beauty product from the user-inputted bar code number, and match it to the name of a beauty product in our data set of reviews. The corresponding reviews will be presented to the user, giving the user sufficient information to decide if they would like to add that product to their “Makeup bag”.
+When a user views a specific product (whether they searched for it or found it through a friend’s makeup bag), the corresponding reviews will be presented to the user, giving the user information to help them decide if they would like to add that product to their own makeup bag.
 
 ### Functionality
 
@@ -72,10 +70,6 @@ Write reviews for a product (POST)
 ```
 
 **MVP (Minimum Viable Product)** — Viewing your bag, adding items to your bag, viewing friends’ bags, and seeing product reviews
-
-
-_Extras if time — Barcode scanning, ordering of products, more advanced
-search features_
 
 
 # A low-fidelity UI mockup
@@ -166,7 +160,7 @@ Hamburger menu _leads to screen 5_
 
 **Text inputs:**
 
-```Product barcode```
+```Product name```
 
 **Buttons:**
 
