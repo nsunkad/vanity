@@ -38,4 +38,4 @@ if __name__ == "__main__":
     main()
     print('Finished!')
 
-# Example usage: python3 aggregate-reviews.py reviews/reviews_0-250.csv reviews/reviews_250-500.csv reviews/reviews_500-750.csv reviews/reviews_750-1250.csv reviews/reviews_1250-end.csv
+# Example usage: python3 aggregate-reviews.py reviews-final/reviews_0-250.csv reviews-final/reviews_250-500-v2.csv reviews-final/reviews_500-750-v2.csv reviews-final/reviews_750-1250-v2.csv reviews-final/reviews_1250-end-v2.csv
