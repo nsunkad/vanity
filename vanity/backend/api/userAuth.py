@@ -6,16 +6,18 @@ app = Flask(__name__)
 def generate_unique_user_id():
     cursor = sql_cursor()
     query = "SELECT UserId FROM Users"
-    userIds = cursor.execute(query)
+    cursor.execute(query)
+    userId = cursor.fetchone()
     
     # Generate a UserId one greater than the max
     maxUserId = 0
-    print('hereeeeeeeee')
-    for row in userIds:
-        print(row)
-        maxUserId = max(maxUserId, int(userId))
-        print('hereoiiii')
+    while userId is not None:
+        print(type(userId[0]), userId[0])
+        maxUserId = max(maxUserId, userId[0])
+        userId = cursor.fetchone()
     
+    
+    print("idk here oh")
     return maxUserId + 1
         
         
@@ -45,10 +47,8 @@ The backend will generate a unique UserId for each user upon registration
 def register():
     # Parse request body (type checking to ensure correct type before table insert)
     body = request.json
-    print(body)
     try:
         userId: int = generate_unique_user_id()
-        userId = str(generate_unique_user_id())
         username: str = body['username']
         password: str = body['password']
         firstname: str =  body['firstname']
@@ -70,15 +70,14 @@ def register():
     except Exception as err:
         return "Error inserting record into database:\n", str(err), 500
     
+
     # Check to ensure the record was inserted correctly
-    verification_query = "SELECT * FROM Users WHERE"
-    verification_data = userId
+    verification_query = "SELECT * FROM Users WHERE UserId = %s"
+    verification_data = (userId,)
     cursor.execute(verification_query, verification_data)
-    cursor.execute(verification_query)
     results = cursor.fetchall()
     for row in results:
         return str(row)
-    
     
     
 # temporary dummy endpoint for testing SQL queries
