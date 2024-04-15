@@ -4,6 +4,8 @@ import pandas as pd
 import pandas as pd
 
 df = pd.read_csv('scripts/product_info 2.csv')
+
+# CODE CITATION: CS498CC MP1 stopwords and delimiters list from https://github.com/UIUC-CS498-Cloud, derived from https://gist.github.com/sebleier/554280
 stop_words_list = ["i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your", "yours",
                    "yourself", "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", "it", "its",
                    "itself", "they", "them", "their", "theirs", "themselves", "what", "which", "who", "whom", "this", "that",
