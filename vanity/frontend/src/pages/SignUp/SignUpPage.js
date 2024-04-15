@@ -28,8 +28,8 @@ class SignUpPage extends React.Component {
     event.preventDefault();
 
     const data = {
-        firstname: this.state.firstName,
-        lastname: this.state.lastName,
+        firstname: this.state.firstname,
+        lastname: this.state.lastname,
         email: this.state.email,
         username: this.state.username,
         password: this.state.password,
@@ -101,7 +101,7 @@ class SignUpPage extends React.Component {
               placeholder="Email"
             />
           </div>
-          <SubmitButton/>
+          <SubmitButton onSubmit={this.handleSubmit}/>
         </form>
       </div>
     );

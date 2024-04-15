@@ -30,14 +30,9 @@ export function SignUpButton() {
 
 // Placeholder for SubmitButton Component
 // You can define and export the SubmitButton similarly
-export function SubmitButton() {
-    const navigate = useNavigate();
-
-    const navigateToSignUp = () => {
-      navigate('/mybag');
-    };
-
+export function SubmitButton({onSubmit}) {
   return (
-    <button className="vanity-button">submit</button>
-  );
+    <button onClick={onSubmit} className="vanity-button">submit</button>
+);
+
 }
