@@ -1,5 +1,5 @@
 import React from 'react';
-import './SignUpPage.css'; // Make sure to include the CSS file
+import './SignUpPage.css';
 import {SubmitButton} from '../../components/general/Buttons.js';
 
 class SignUpPage extends React.Component {

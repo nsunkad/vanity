@@ -28,8 +28,7 @@ export function SignUpButton() {
   );
 }
 
-// Placeholder for SubmitButton Component
-// You can define and export the SubmitButton similarly
+//SubmitButton Component
 export function SubmitButton({onSubmit}) {
   return (
     <button onClick={onSubmit} className="vanity-button">submit</button>
