@@ -11,6 +11,7 @@ class SignUpPage extends React.Component {
       email: '',
       username: '',
       password: '',
+      submissionSuccess: false,
     };
   }
 
@@ -45,6 +46,10 @@ class SignUpPage extends React.Component {
     .then(response => response.json())
     .then(data => {
         console.log('Success:', data);
+        this.setState({
+          submissionSuccess: true,
+          inputStyle: { color: 'grey' }
+      });
     })
     .catch((error) => {
         console.error('Error:', error);
@@ -54,9 +59,9 @@ class SignUpPage extends React.Component {
   render() {
     return (
       <div className="signup-container">
-        <h1>Sign Up</h1>
+        <h1>sign up</h1>
         <form onSubmit={this.handleSubmit}>
-        <div className="input-container">
+          <div className="input-container">
             <input
               name="username"
               type="text"
@@ -101,7 +106,10 @@ class SignUpPage extends React.Component {
               placeholder="Email"
             />
           </div>
+          <div className="signup-button">
           <SubmitButton onSubmit={this.handleSubmit}/>
+          </div>
+          {this.state.submissionSuccess && <p className="signup-success">welcome to vanity!</p>}
         </form>
       </div>
     );

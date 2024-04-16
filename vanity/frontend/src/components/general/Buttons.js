@@ -31,7 +31,10 @@ export function SignUpButton() {
 //SubmitButton Component
 export function SubmitButton({onSubmit}) {
   return (
-    <button onClick={onSubmit} className="vanity-button">submit</button>
+    <div>
+      <button onClick={onSubmit} className="vanity-button">submit</button>
+    </div>
+    
 );
 
 }
