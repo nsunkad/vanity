@@ -20,3 +20,21 @@
   background-color: #b7717c;
   color: white;
 }
+
+.bag-button {
+  background-color: white;
+  color: grey;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 6px 12px;
+  font-family: Typewriter;
+  border-radius: 15%;
+  border: none;
+  transition: background-color 0.3s ease;
+  margin-top: 12px;
+}
+  
+.bag-button:hover, .vanity-button:active {
+  background-color: #b7717c;
+  color: white;
+}

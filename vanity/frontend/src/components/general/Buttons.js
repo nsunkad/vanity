@@ -1,5 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShoppingBag } from '@fortawesome/free-solid-svg-icons';
 import "./Buttons.css";
 
 // LoginButton Component
@@ -35,6 +37,18 @@ export function SubmitButton({onSubmit}) {
       <button onClick={onSubmit} className="vanity-button">submit</button>
     </div>
     
-);
+); }
 
+export function MyBagButton() {
+  const navigate = useNavigate();
+
+  const navigateToMyBag = () => {
+    navigate('/mybag');
+  };
+
+  return (
+    <button onClick={navigateToMyBag} className="bag-button">
+      <FontAwesomeIcon icon={faShoppingBag} />
+    </button>
+  );
 }

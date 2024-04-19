@@ -31,7 +31,6 @@
   font-family: Typewriter;
   padding: 10px;
   border: none;
-  width: 250px;
 }
 
 .signup-button {
@@ -42,7 +41,7 @@
 }
 .signup-success {
   color: white;
-  font-size: 24px;
+  font-size: 26px;
   font-family: Typewriter;
   padding: 10px;
 }

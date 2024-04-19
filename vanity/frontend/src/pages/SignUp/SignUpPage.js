@@ -1,6 +1,8 @@
 import React from 'react';
 import './SignUpPage.css';
 import {SubmitButton} from '../../components/general/Buttons.js';
+import {MyBagButton} from '../../components/general/Buttons.js';
+
 
 class SignUpPage extends React.Component {
   constructor(props) {
@@ -107,9 +109,12 @@ class SignUpPage extends React.Component {
             />
           </div>
           <div className="signup-button">
-          <SubmitButton onSubmit={this.handleSubmit}/>
+            <SubmitButton onSubmit={this.handleSubmit}/>
           </div>
-          {this.state.submissionSuccess && <p className="signup-success">welcome to vanity!</p>}
+          {this.state.submissionSuccess &&
+            <p className="signup-success">
+              welcome to vanity
+            </p>}
         </form>
       </div>
     );
