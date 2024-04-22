@@ -21,6 +21,6 @@ def lookup_friends():
         cursor.execute(query, (search_string, search_string, search_string))
         rows = cursor.fetchall()
         results = [[row[0], row[1]] for row in rows]
-        return jsonify(results)
+        return jsonify(results), 200
     except Exception as e:
         return jsonify({"error": f"Error querying database: {str(e)}"}), 500
