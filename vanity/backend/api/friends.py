@@ -1,12 +1,10 @@
-from flask import Flask, request
+from flask import request, Blueprint
 from conn import sql_cursor
-from flask_cors import CORS
 from flask import jsonify
 
-app = Flask(__name__)
-CORS(app)
+friends_bp = Blueprint('friends', __name__)
 
-@app.route('/lookup-friends', methods=['GET'])
+@friends_bp.route('/lookup-friends', methods=['GET'])
 def lookup_friends():
     search_string = request.args.get('q')
 

@@ -1,10 +1,8 @@
-from flask import Flask, request
+from flask import Blueprint, request
 from conn import db, sql_cursor
-from flask_cors import CORS
 from flask import jsonify
 
-app = Flask(__name__)
-CORS(app)
+userAuth_bp = Blueprint('userAuth', __name__)
 
 def generate_unique_user_id():
     cursor = sql_cursor()
@@ -43,7 +41,7 @@ Content-Type: application/json
 The backend will generate a unique UserId for each user upon registration
 """
 
-@app.route('/register', methods=['POST'])
+@userAuth_bp.route('/register', methods=['POST'])
 def register():
     print("did we even get here")
     # Parse request body (type checking to ensure correct type before table insert)
@@ -89,7 +87,7 @@ def register():
     
     
 # temporary dummy endpoint for testing SQL queries
-@app.route('/dummy')
+@userAuth_bp.route('/dummy')
 def dummy():
     cursor = sql_cursor()
     query = "SELECT * FROM Products WHERE ProductName = 'La Habana Eau de Parfum'"
@@ -99,8 +97,3 @@ def dummy():
     # Process results
     for row in results:
         return str(row)  # Or do something else with the results
-    
-
-
-if __name__ == '__main__':
-    app.run(port=8000,debug=True)
