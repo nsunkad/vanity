@@ -42,3 +42,25 @@ def create_bag_item():
             return jsonify(results[0]), 200
     except Exception as e:
         return jsonify({"error": f"Error retrieving data after insert: {str(e)}"}), 500
+
+@bagItems_bp.route('/delete-bag-item', methods=['DELETE'])
+def delete_bag_item():
+    userId = request.args.get('userId')
+    productId = request.args.get('productId')
+
+    if not userId or not productId:
+        return jsonify({"error": "User ID and Product ID are required parameters"}), 400
+    
+    try:
+        cursor = sql_cursor()
+        query = """DELETE FROM BagItems WHERE UserId = %s AND ProductId = %s;"""
+        cursor.execute(query, (userId, productId))
+        db.commit()
+
+        if cursor.rowcount > 0:
+            return jsonify({"message": "Bag item deleted successfully"}), 200
+        else:
+            return jsonify({"error": "No matching bag item found for deletion"}), 404
+    except Exception as e:
+        return jsonify({"error": f"Error deleting row from database: {str(e)}"}), 500
+
