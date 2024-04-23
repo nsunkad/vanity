@@ -1,6 +1,7 @@
 from flask import Blueprint, request
 from conn import db, sql_cursor
 from flask import jsonify
+import bcrypt
 
 userAuth_bp = Blueprint('userAuth', __name__)
 
@@ -13,12 +14,9 @@ def generate_unique_user_id():
     # Generate a UserId one greater than the max
     maxUserId = 0
     while userId is not None:
-        print(type(userId[0]), userId[0])
         maxUserId = max(maxUserId, userId[0])
         userId = cursor.fetchone()
     
-    
-    print("idk here oh")
     return maxUserId + 1
      
 
@@ -43,7 +41,6 @@ The backend will generate a unique UserId for each user upon registration
 
 @userAuth_bp.route('/register', methods=['POST'])
 def register():
-    print("did we even get here")
     # Parse request body (type checking to ensure correct type before table insert)
     body = request.json
     if not body:
@@ -60,13 +57,19 @@ def register():
     except Exception as e:
         return jsonify({"error": f"Error parsing request: {str(e)}"}), 400 
     
+    
+    # Hash the password
+    password_bytes = password.encode('utf-8')
+    salt = bcrypt.gensalt()
+    hashed_password = bcrypt.hashpw(password_bytes, salt) 
+    
     # Insert record into Users table
     try:
         cursor = sql_cursor()
         query = """INSERT INTO 
                     Users (UserId, Username, Password, FirstName, LastName, Email) 
                     VALUES (%s, %s, %s, %s, %s, %s);"""
-        data = (userId, username, password, firstname, lastname, email)
+        data = (userId, username, hashed_password, firstname, lastname, email)
         cursor.execute(query, data)
         db.commit()
     except Exception as e:
