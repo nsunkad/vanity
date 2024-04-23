@@ -24,7 +24,7 @@ def generate_unique_user_id():
 Login endpoint
 
 Request format (with JSON body):
-POST /register HTTP/1.1
+GET /login HTTP/1.1
 Content-Type: application/json
 {
     "username": "nsunkad",
