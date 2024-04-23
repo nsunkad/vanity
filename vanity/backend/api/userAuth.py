@@ -35,7 +35,6 @@ The backend will generate a unique UserId for each user upon registration
 @userAuth_bp.route('/login', methods=['GET'])
 def login():
     body = request.json
-    print("here")
     if not body:
         return jsonify({"error": "No data provided"}), 400
     try:
