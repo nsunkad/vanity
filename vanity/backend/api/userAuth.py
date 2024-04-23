@@ -28,7 +28,7 @@ GET /login HTTP/1.1
 Content-Type: application/json
 {
     "username": "nsunkad",
-    "password": "hashed_password_from_frontend"
+    "password": "my_password"
 }
 The backend will generate a unique UserId for each user upon registration
 """
@@ -73,7 +73,7 @@ POST /register HTTP/1.1
 Content-Type: application/json
 {
     "username": "nsunkad",
-    "password": "hashed_password_from_frontend",
+    "password": "my_password",
     "firstname": "Nitya"
     "lastname": "Sunkad"
     "email" : "nsunkad@email.com"
