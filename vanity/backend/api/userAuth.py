@@ -20,14 +20,57 @@ def generate_unique_user_id():
     return maxUserId + 1
      
 
-# @app.route('/login')
-# def login():
+"""
+Login endpoint
+
+Request format (with JSON body):
+POST /register HTTP/1.1
+Content-Type: application/json
+{
+    "username": "nsunkad",
+    "password": "hashed_password_from_frontend"
+}
+The backend will generate a unique UserId for each user upon registration
+"""
+@userAuth_bp.route('/login', methods=['GET'])
+def login():
+    body = request.json
+    print("here")
+    if not body:
+        return jsonify({"error": "No data provided"}), 400
+    try:
+        username: str = body['username']
+        password: str = body['password']
+    except:
+       return jsonify({"error": f"Error parsing request: {str(e)}"}), 400 
+    
+    # Check if username is in the database
+    cursor = sql_cursor()
+    username_query = "SELECT * FROM Users WHERE UserName = %s"
+    cursor.execute(username_query, (username,))
+    results = cursor.fetchall()
+    
+    if not results:
+        return jsonify({"error": f"Username does not exist"}), 404
+    else:
+        for row in results:
+            result_user_id = row[0]
+            result_password = row[2] 
+            
+            # Check if password matches the hashed password in the database
+            if bcrypt.checkpw(password.encode('utf-8'), result_password.encode('utf-8')):
+                return jsonify({"success": result_user_id}), 200
+        
+        return jsonify({"error": f"Incorrect password"}), 401
+                   
+                
+    
     
 """
 Register endpoint
 
 Request format (with JSON body):
-POST /api/register HTTP/1.1
+POST /register HTTP/1.1
 Content-Type: application/json
 {
     "username": "nsunkad",
