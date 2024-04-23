@@ -40,7 +40,7 @@ def login():
     try:
         username: str = body['username']
         password: str = body['password']
-    except:
+    except Exception as e:
        return jsonify({"error": f"Error parsing request: {str(e)}"}), 400 
     
     # Check if username is in the database
