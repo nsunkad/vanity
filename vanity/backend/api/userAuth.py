@@ -74,8 +74,8 @@ Content-Type: application/json
 {
     "username": "nsunkad",
     "password": "my_password",
-    "firstname": "Nitya"
-    "lastname": "Sunkad"
+    "firstname": "Nitya",
+    "lastname": "Sunkad",
     "email" : "nsunkad@email.com"
 }
 The backend will generate a unique UserId for each user upon registration
@@ -105,6 +105,30 @@ def register():
     salt = bcrypt.gensalt()
     hashed_password = bcrypt.hashpw(password_bytes, salt) 
     
+    
+     # Check to see if username already taken
+    try:
+        cursor = sql_cursor()
+        username_query = "SELECT * FROM Users WHERE UserName = %s"
+        cursor.execute(username_query, (username,))
+        results = cursor.fetchall()
+        if results:
+            return jsonify({"error": "This username is taken. Please choose another username"}), 400
+    except Exception as e:
+        return jsonify({"error": f"Error processing request: {str(e)}"}), 400
+    
+    
+    # Check to see if account with email already exists
+    try:
+        cursor = sql_cursor()
+        email_query = "SELECT * FROM Users WHERE Email = %s"
+        cursor.execute(email_query, (email,))
+        results = cursor.fetchall()
+        if results:
+            return jsonify({"error": "An account with this email already exists"}), 400
+    except Exception as e:
+        return jsonify({"error": f"Error processing request: {str(e)}"}), 400
+        
     # Insert record into Users table
     try:
         cursor = sql_cursor()
