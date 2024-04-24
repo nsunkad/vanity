@@ -1,6 +1,7 @@
 from flask import Blueprint, request
 from conn import db, sql_cursor
 from flask import jsonify
+import bcrypt
 
 userAuth_bp = Blueprint('userAuth', __name__)
 
@@ -13,29 +14,68 @@ def generate_unique_user_id():
     # Generate a UserId one greater than the max
     maxUserId = 0
     while userId is not None:
-        print(type(userId[0]), userId[0])
         maxUserId = max(maxUserId, userId[0])
         userId = cursor.fetchone()
     
-    
-    print("idk here oh")
     return maxUserId + 1
      
 
-# @app.route('/login')
-# def login():
+"""
+Login endpoint
+
+Request format (with JSON body):
+GET /login HTTP/1.1
+Content-Type: application/json
+{
+    "username": "nsunkad",
+    "password": "my_password"
+}
+The backend will generate a unique UserId for each user upon registration
+"""
+@userAuth_bp.route('/login', methods=['GET'])
+def login():
+    body = request.json
+    if not body:
+        return jsonify({"error": "No data provided"}), 400
+    try:
+        username: str = body['username']
+        password: str = body['password']
+    except Exception as e:
+       return jsonify({"error": f"Error parsing request: {str(e)}"}), 400 
+    
+    # Check if username is in the database
+    cursor = sql_cursor()
+    username_query = "SELECT * FROM Users WHERE UserName = %s"
+    cursor.execute(username_query, (username,))
+    results = cursor.fetchall()
+    
+    if not results:
+        return jsonify({"error": f"Username does not exist"}), 404
+    else:
+        for row in results:
+            result_user_id = row[0]
+            result_password = row[2] 
+            
+            # Check if password matches the hashed password in the database
+            if bcrypt.checkpw(password.encode('utf-8'), result_password.encode('utf-8')):
+                return jsonify({"success": result_user_id}), 200
+        
+        return jsonify({"error": f"Incorrect password"}), 401
+                   
+                
+    
     
 """
 Register endpoint
 
 Request format (with JSON body):
-POST /api/register HTTP/1.1
+POST /register HTTP/1.1
 Content-Type: application/json
 {
     "username": "nsunkad",
-    "password": "hashed_password_from_frontend",
-    "firstname": "Nitya"
-    "lastname": "Sunkad"
+    "password": "my_password",
+    "firstname": "Nitya",
+    "lastname": "Sunkad",
     "email" : "nsunkad@email.com"
 }
 The backend will generate a unique UserId for each user upon registration
@@ -43,7 +83,6 @@ The backend will generate a unique UserId for each user upon registration
 
 @userAuth_bp.route('/register', methods=['POST'])
 def register():
-    print("did we even get here")
     # Parse request body (type checking to ensure correct type before table insert)
     body = request.json
     if not body:
@@ -60,13 +99,43 @@ def register():
     except Exception as e:
         return jsonify({"error": f"Error parsing request: {str(e)}"}), 400 
     
+    
+    # Hash the password
+    password_bytes = password.encode('utf-8')
+    salt = bcrypt.gensalt()
+    hashed_password = bcrypt.hashpw(password_bytes, salt) 
+    
+    
+     # Check to see if username already taken
+    try:
+        cursor = sql_cursor()
+        username_query = "SELECT * FROM Users WHERE UserName = %s"
+        cursor.execute(username_query, (username,))
+        results = cursor.fetchall()
+        if results:
+            return jsonify({"error": "This username is taken. Please choose another username"}), 400
+    except Exception as e:
+        return jsonify({"error": f"Error processing request: {str(e)}"}), 400
+    
+    
+    # Check to see if account with email already exists
+    try:
+        cursor = sql_cursor()
+        email_query = "SELECT * FROM Users WHERE Email = %s"
+        cursor.execute(email_query, (email,))
+        results = cursor.fetchall()
+        if results:
+            return jsonify({"error": "An account with this email already exists"}), 400
+    except Exception as e:
+        return jsonify({"error": f"Error processing request: {str(e)}"}), 400
+        
     # Insert record into Users table
     try:
         cursor = sql_cursor()
         query = """INSERT INTO 
                     Users (UserId, Username, Password, FirstName, LastName, Email) 
                     VALUES (%s, %s, %s, %s, %s, %s);"""
-        data = (userId, username, password, firstname, lastname, email)
+        data = (userId, username, hashed_password, firstname, lastname, email)
         cursor.execute(query, data)
         db.commit()
     except Exception as e:

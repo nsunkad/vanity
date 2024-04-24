@@ -43,6 +43,47 @@ def create_bag_item():
     except Exception as e:
         return jsonify({"error": f"Error retrieving data after insert: {str(e)}"}), 500
 
+
+"""
+Get Bag Items endpoint
+
+Request format (with JSON body):
+GET /bag-items HTTP/1.1
+Content-Type: application/json
+{
+    "userId": 1
+}
+Upon login or registration, the backend returns the UserId
+"""
+
+@bagItems_bp.route('/bag-items', methods=['GET'])
+def get_bag_items():
+    
+    body = request.json
+    if not body:
+        return jsonify({"error": "No data provided"}), 400
+    try:
+        userId: str = body['userId']
+    except Exception as e:
+       return jsonify({"error": f"Error parsing request: {str(e)}"}), 400 
+   
+    # Get all the ProductIds in UserId's bag
+    cursor = sql_cursor()
+    query = "SELECT ProductId FROM BagItems WHERE UserId = %s"
+    cursor.execute(query, (userId,))
+    results = cursor.fetchall()
+    
+    if not results:
+        return jsonify({"success": []}), 200
+    else:
+        product_ids = []
+        
+        for row in results:
+            product_ids.append(row[0])
+    
+    return jsonify({"success": product_ids}), 200
+
+
 @bagItems_bp.route('/delete-bag-item', methods=['DELETE'])
 def delete_bag_item():
     userId = request.args.get('userId')
