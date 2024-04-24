@@ -1,6 +1,7 @@
 import React from 'react';
 import './LoginPage.css'; // Make sure to include the CSS file
 import {SubmitButton} from '../../components/general/Buttons.js';
+import { useNavigate } from 'react-router-dom';
 
 class LogInPage extends React.Component {
   constructor(props) {
@@ -8,6 +9,7 @@ class LogInPage extends React.Component {
     this.state = {
       username: '',
       password: '',
+      errorMessage: '',
     };
   }
 
@@ -23,11 +25,33 @@ class LogInPage extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    // Implement your submit logic here
     console.log('Submitted credentials:', this.state.username, this.state.password);
+    const { username, password } = this.state;
+
+    fetch('/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username, password })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        console.log('Login Successful:', data);
+        this.props.history.push('/mybag');
+      } else {
+        this.setState({ errorMessage: data.error });
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      this.setState({ errorMessage: 'An error occurred. Please try again later.' });
+    });
   };
 
   render() {
+    const { errorMessage } = this.state;
     return (
       <div className="login-container">
         <h1>log in</h1>
@@ -50,7 +74,7 @@ class LogInPage extends React.Component {
               placeholder="password"
             />
           </div>
-          <SubmitButton/>
+          <SubmitButton onSubmit={this.handleSubmit}/>
         </form>
       </div>
     );
