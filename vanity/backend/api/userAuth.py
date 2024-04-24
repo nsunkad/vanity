@@ -53,12 +53,11 @@ def login():
         return jsonify({"error": f"Username does not exist"}), 404
     else:
         for row in results:
-            result_user_id = row[0]
-            result_password = row[2] 
+            result_password = row[2]
             
             # Check if password matches the hashed password in the database
             if bcrypt.checkpw(password.encode('utf-8'), result_password.encode('utf-8')):
-                return jsonify({"success": result_user_id}), 200
+                return jsonify({"success": results}), 200
         
         return jsonify({"error": f"Incorrect password"}), 401
                    
