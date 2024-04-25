@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faShoppingBag } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShoppingBag } from '@fortawesome/free-solid-svg-icons';
 import "./Buttons.css";
 
 // LoginButton Component
@@ -46,11 +46,11 @@ export function MyBagButton() {
     navigate('/mybag');
   };
 
-  // return (
-  //   <button onClick={navigateToMyBag} className="bag-button">
-  //     <FontAwesomeIcon icon={faShoppingBag} />
-  //   </button>
-  // );
+  return (
+    <button onClick={navigateToMyBag} className="bag-button">
+      <FontAwesomeIcon icon={faShoppingBag} />
+    </button>
+  );
 }
 
 //Login link to redirect to login page

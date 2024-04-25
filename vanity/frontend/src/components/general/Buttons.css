@@ -34,7 +34,7 @@
   margin-top: 12px;
 }
   
-.bag-button:hover, .vanity-button:active {
+.bag-button:hover, .bag-button:active {
   background-color: #b7717c;
   color: white;
 }

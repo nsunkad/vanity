@@ -1,17 +1,66 @@
 @font-face {
-    font-family: 'TypeWriter'; /* Give your font a name to be used in your CSS */
-    src: local('TypeWriter'), /* This will attempt to use the local font if it matches the name */
-         url('../../../assets/JMH-Typewriter-Thin.ttf') format('truetype'); /* Path to your font file */
-    font-weight: normal;
-    font-style: normal;
-  }
+  font-family: 'TypeWriter'; /* Give your font a name to be used in your CSS */
+  src: local('TypeWriter'), /* This will attempt to use the local font if it matches the name */
+       url('../../../assets/JMH-Typewriter-Thin.ttf') format('truetype'); /* Path to your font file */
+  font-weight: normal;
+  font-style: normal;
+}
 
-  .mybag-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh; /* This will take the full height of the viewport */
-    background-color: #FFC0CB; /* This is a pink color similar to the one in the image */
-    font-family: Typewriter; /* Replace with the font you're using */
-  }
+:global(body) {
+  margin: 0;
+}
+.mybag-container {
+  background-color: #FFC0CB; /* Pale pink background */
+  height: 100vh; /* Full height */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: Typewriter;
+}
+
+.mybag-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 1em;
+}
+
+.mybag-bag {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Increase the number of columns to 4 (or more as needed) */
+  gap: 1em;
+  padding: 1em;
+  max-width: 800px; /* Increase the max-width as needed */
+  width: 100%;
+}
+
+.mybag-slot {
+  background-color: #fff;
+  border: 1px solid #eee;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px; /* Adjust padding to make slots smaller */
+}
+
+.mybag-menuIcon {
+  height: 20px;
+  width: 20px;
+  /* Replace with actual icons */
+  background-color: #000;
+}
+
+.mybag-addIcon {
+  height: 20px;
+  width: 20px;
+  /* Replace with actual icons */
+  background-color: #000;
+}
+
+.mybag-name {
+  color: #000; /* Adjust text color as needed */
+}

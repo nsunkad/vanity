@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-//import { UserProvider } from './context/UserProvider';
+import { UserProvider } from './context/UserContext';
 import WelcomePage from './pages/Welcome/WelcomePage';
 import LoginPage from './pages/LogIn/LogInPage';
 import SignUpPage from './pages/SignUp/SignUpPage';
@@ -8,7 +8,7 @@ import MyBagPage from './pages/MyBag/MyBagPage';
 
 const App = () => {
   return (
-    //<UserProvider>
+    <UserProvider>
       <Router>
         <Routes>
           <Route path="/" element={<WelcomePage />} exact />
@@ -17,7 +17,7 @@ const App = () => {
           <Route path="/mybag" element={<MyBagPage />} />
         </Routes>
       </Router>
-    //</UserProvider>
+    </UserProvider>
   );
 };
 
