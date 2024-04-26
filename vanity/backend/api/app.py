@@ -5,10 +5,12 @@ from friends import friends_bp
 from bagItems import bagItems_bp
 from reviews import reviews_bp
 from recommendations import recommendations_bp
+import os
 
 app = Flask(__name__)
-CORS(app)
 
+CORS(app)
+os.environ['PYTHONUNBUFFERED'] = '1'
 app.register_blueprint(userAuth_bp)
 app.register_blueprint(friends_bp)
 app.register_blueprint(bagItems_bp)

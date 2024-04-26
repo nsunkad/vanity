@@ -6,7 +6,7 @@ const MyBagPage = () => {
   const { user } = useUser(); // Access user from context
 
   // Handle situations where there is no user data (user not logged in or data not loaded)
-  const firstName = user ? user.firstname : "User";
+  const firstName = user ? user.firstName : "User";
 
   return (
     <div className={"mybag-container"}>

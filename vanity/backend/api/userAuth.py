@@ -48,16 +48,28 @@ def login():
     username_query = "SELECT * FROM Users WHERE UserName = %s"
     cursor.execute(username_query, (username,))
     results = cursor.fetchall()
-    
+    # print(results)
+    # print(type(results))
     if not results:
         return jsonify({"error": f"Username does not exist"}), 404
+    user_id, username, result_password, first_name, last_name, email = results[0]
+    if bcrypt.checkpw(password.encode('utf-8'), result_password.encode('utf-8')):
+        user_info = {
+            "user_id": user_id,
+            "username": username,
+            "firstName": first_name,
+            "lastName": last_name,
+            "email": email
+        }
+        print(user_info)
+        return jsonify(user_info), 200
     else:
-        for row in results:
-            result_password = row[2]
+        # for row in results:
+        #     result_password = row[2]
             
-            # Check if password matches the hashed password in the database
-            if bcrypt.checkpw(password.encode('utf-8'), result_password.encode('utf-8')):
-                return jsonify({"success": results}), 200
+        #     # Check if password matches the hashed password in the database
+        #     if bcrypt.checkpw(password.encode('utf-8'), result_password.encode('utf-8')):
+        #         return jsonify(user_info), 200
         
         return jsonify({"error": f"Incorrect password"}), 401
                    
