@@ -18,7 +18,6 @@ def generate_unique_user_id():
         userId = cursor.fetchone()
     
     return maxUserId + 1
-     
 
 """
 Login endpoint
@@ -48,8 +47,8 @@ def login():
     username_query = "SELECT * FROM Users WHERE UserName = %s"
     cursor.execute(username_query, (username,))
     results = cursor.fetchall()
-    # print(results)
-    # print(type(results))
+    print(results)
+
     if not results:
         return jsonify({"error": f"Username does not exist"}), 404
     user_id, username, result_password, first_name, last_name, email = results[0]
@@ -64,18 +63,8 @@ def login():
         print(user_info)
         return jsonify(user_info), 200
     else:
-        # for row in results:
-        #     result_password = row[2]
-            
-        #     # Check if password matches the hashed password in the database
-        #     if bcrypt.checkpw(password.encode('utf-8'), result_password.encode('utf-8')):
-        #         return jsonify(user_info), 200
-        
         return jsonify({"error": f"Incorrect password"}), 401
-                   
-                
-    
-    
+
 """
 Register endpoint
 
@@ -165,15 +154,33 @@ def register():
     except Exception as e:
         return jsonify({"error": f"Error retrieving user after insert: {str(e)}"}), 500
     
+"""
+Delete user endpoint
+
+Request format (with JSON body):
+DELETE /delete-account HTTP/1.1
+Content-Type: application/json
+{
+    "userId": "nsunkad"
+}
+The backend will generate a unique userId for each user upon registration
+"""
+@userAuth_bp.route('/delete-account', methods=['DELETE'])
+def delete():
+    body = request.json
+    if not body:
+        return jsonify({"error": "No data provided"}), 400
+    try:
+        userId: int = body['userId']
+    except Exception as e:
+       return jsonify({"error": f"Error parsing request: {str(e)}"}), 400
     
-# temporary dummy endpoint for testing SQL queries
-@userAuth_bp.route('/dummy')
-def dummy():
-    cursor = sql_cursor()
-    query = "SELECT * FROM Products WHERE ProductName = 'La Habana Eau de Parfum'"
-    cursor.execute(query)
-    # Fetch results
-    results = cursor.fetchall()
-    # Process results
-    for row in results:
-        return str(row)  # Or do something else with the results
+    # Delete record from table
+    try:
+        cursor = sql_cursor()
+        delete_query = "DELETE FROM Users WHERE UserId = %s;"
+        cursor.execute(delete_query, (userId,))
+        db.commit()
+        return jsonify({"success": f"Successfully deleted account"}), 200
+    except:
+        return jsonify({"error": f"Failed to delete account"}), 404
