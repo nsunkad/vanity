@@ -32,7 +32,7 @@ Content-Type: application/json
 }
 The backend will generate a unique UserId for each user upon registration
 """
-@userAuth_bp.route('/login', methods=['GET'])
+@userAuth_bp.route('/login', methods=['POST'])
 def login():
     body = request.json
     if not body:
