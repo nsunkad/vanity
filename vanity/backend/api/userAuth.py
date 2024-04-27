@@ -213,7 +213,6 @@ def update():
         # Hash the password
         hashed_password = hash_password(password)
         
-        print("yese")
         update_query = """UPDATE Users
                           SET UserName = %s,
                               Password = %s,
