@@ -33,7 +33,6 @@ def login():
     username_query = "SELECT * FROM Users WHERE UserName = %s"
     cursor.execute(username_query, (username,))
     results = cursor.fetchall()
-    print(results)
 
     if not results:
         return jsonify({"error": f"Username does not exist"}), 404
@@ -46,7 +45,6 @@ def login():
             "lastName": last_name,
             "email": email
         }
-        print(user_info)
         return jsonify(user_info), 200
     else:
         return jsonify({"error": f"Incorrect password"}), 401
@@ -221,7 +219,6 @@ def update():
                               Email = %s
                           WHERE UserId = %s"""
         cursor.execute(update_query, (username, hashed_password, firstname, lastname, email, userId))
-        print("noe")
         db.commit()
     except:
         return jsonify({"error": f"Failed to delete account"}), 404
