@@ -18,14 +18,58 @@
   align-items: center;
   justify-content: center;
   font-family: Typewriter;
+  padding-top: 60px;
+
 }
 
 .mybag-header {
+  position: fixed; /* Fix the header to the top */
+  top: 0; /* Align it to the top edge of the screen */
+  left: 0;
+  right: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
   padding: 1em;
+  background-color: #FFC0CB; /* Match the background color */
+  height: 60px;
+}
+
+.hamburger-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 80px;
+  height: 80px;
+  cursor: pointer;
+  position: fixed; /* Position the menu icon absolutely within the fixed header */
+  top: 10px; /* Adjust as needed */
+  left: 10px; /* Adjust as needed */
+  z-index: 1001; /* Above the header */
+}
+
+.bar {
+  height: 3px;
+  width: 100%;
+  background-color: white; /* White color for bars */
+  margin: 4px 0;
+  transition: all 0.3s ease;
+}
+
+.menu-items {
+  display: flex;
+  flex-direction: column; /* Align menu items in a column for vertical expansion */
+  position: fixed;
+  top: 0; /* Position below the header */
+  left: 0;
+  width: 250px; /* Full width to match the header */
+  background-color: #FFC0CB; /* Match the background color */
+  padding: 10px 0; /* Add some padding at the top and bottom */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for better separation from the content */
+  z-index: 1000; /* Ensure it is below the hamburger icon but above other content */
+  height: 100%;
+  transform: translateX(-100%); /* Start off the screen */
+  transition: transform 0.3s ease;
 }
 
 .mybag-bag {
@@ -47,20 +91,34 @@
   padding: 10px; /* Adjust padding to make slots smaller */
 }
 
-.mybag-menuIcon {
+/* .mybag-menuIcon {
   height: 20px;
   width: 20px;
-  /* Replace with actual icons */
   background-color: #000;
-}
-
-.mybag-addIcon {
-  height: 20px;
-  width: 20px;
-  /* Replace with actual icons */
-  background-color: #000;
-}
+} */
 
 .mybag-name {
-  color: #000; /* Adjust text color as needed */
+  position: absolute; /* Position absolutely to override flexbox for this item */
+  top: 350%; /* 50% from the top of the header */
+  left: 50%; /* 50% from the left of the header */
+  transform: translate(-50%, -50%); /* Adjust to center the text exactly */
+  font-size: 2.5em; /* Adjust font size as needed */
+  color: #ffff; /* Text color */
+  z-index: 10; /* Ensure it's above the background but below the menu icon */
+  flex-grow: 1; /* Allow the title to take up the available space */
+  text-align: center;
+}
+
+.menu-items.open {
+  transform: translateX(0); /* Bring the sidebar onto the screen */
+}
+
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent overlay */
+  z-index: 999;
 }

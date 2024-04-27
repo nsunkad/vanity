@@ -71,7 +71,7 @@ function LogInPage() {
                         placeholder="password"
                     />
                 </div>
-                <SubmitButton />
+                <SubmitButton/>
                 {loginSuccessful && user && (
                     <>
                         <p className="login-success">Welcome to Vanity, {user.firstName}!</p>
