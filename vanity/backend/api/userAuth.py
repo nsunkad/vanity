@@ -4,21 +4,7 @@ from flask import jsonify
 import bcrypt
 
 userAuth_bp = Blueprint('userAuth', __name__)
-
-def generate_unique_user_id():
-    cursor = sql_cursor()
-    query = "SELECT UserId FROM Users"
-    cursor.execute(query)
-    userId = cursor.fetchone()
     
-    # Generate a UserId one greater than the max
-    maxUserId = 0
-    while userId is not None:
-        maxUserId = max(maxUserId, userId[0])
-        userId = cursor.fetchone()
-    
-    return maxUserId + 1
-
 """
 Login endpoint
 
@@ -101,10 +87,7 @@ def register():
     
     
     # Hash the password
-    password_bytes = password.encode('utf-8')
-    salt = bcrypt.gensalt()
-    hashed_password = bcrypt.hashpw(password_bytes, salt) 
-    
+    hashed_password = hash_password(password)
     
      # Check to see if username already taken
     try:
@@ -184,3 +167,94 @@ def delete():
         return jsonify({"success": f"Successfully deleted account"}), 200
     except:
         return jsonify({"error": f"Failed to delete account"}), 404
+
+"""
+Update user info endpoint
+
+Request format (with JSON body):
+PUT /update-account HTTP/1.1
+Content-Type: application/json
+{
+    "userId": 21,
+    "username": "nsunkad",
+    "password": "newpass",
+    "firstname": "Nitya",
+    "lastname": "Sunkad",
+    "email" : "newemail@email.com"
+}
+"""
+@userAuth_bp.route('/update-account', methods=['PUT'])
+def update():
+    body = request.json
+    if not body:
+        return jsonify({"error": "No data provided"}), 400
+    try:
+        userId: int = body['userId']
+        username: str = body['username']
+        password: str = body['password']
+        firstname: str =  body['firstname']
+        lastname: str =  body['lastname']
+        email: str = body['email']
+    except Exception as e:
+       return jsonify({"error": f"Error parsing request: {str(e)}"}), 400
+    
+    # If the user wants to update the username, check if the new username is taken
+    try:
+        cursor = sql_cursor()
+        username_query = "SELECT UserId FROM Users WHERE UserName = %s"
+        cursor.execute(username_query, (username,))
+        results = cursor.fetchall()
+        
+        # if the userId in the database for the given username is not the current user's userId, then it is already taken
+        if results:
+            if results[0][0] != userId:
+                return jsonify({"error": "This username is taken. Please choose another username"}), 400
+
+        # Hash the password
+        hashed_password = hash_password(password)
+        
+        print("yese")
+        update_query = """UPDATE Users
+                          SET UserName = %s,
+                              Password = %s,
+                              FirstName = %s,
+                              LastName = %s,
+                              Email = %s
+                          WHERE UserId = %s"""
+        cursor.execute(update_query, (username, hashed_password, firstname, lastname, email, userId))
+        print("noe")
+        db.commit()
+    except:
+        return jsonify({"error": f"Failed to delete account"}), 404
+# Check to ensure the record was updated correctly
+    try:
+        verification_query = "SELECT * FROM Users WHERE UserId = %s"
+        cursor.execute(verification_query, (userId,))
+        results = cursor.fetchall()
+        if results:
+            return jsonify(results[0]), 200
+        else:
+            return jsonify({"error": "User not found after update"}), 404
+    except Exception as e:
+        return jsonify({"error": f"Error retrieving user after insert: {str(e)}"}), 500
+
+
+def generate_unique_user_id():
+    cursor = sql_cursor()
+    query = "SELECT UserId FROM Users"
+    cursor.execute(query)
+    userId = cursor.fetchone()
+    
+    # Generate a UserId one greater than the max
+    maxUserId = 0
+    while userId is not None:
+        maxUserId = max(maxUserId, userId[0])
+        userId = cursor.fetchone()
+
+    return maxUserId + 1
+
+def hash_password(password):
+    password_bytes = password.encode('utf-8')
+    salt = bcrypt.gensalt()
+    hashed_password = bcrypt.hashpw(password_bytes, salt) 
+    return hashed_password
