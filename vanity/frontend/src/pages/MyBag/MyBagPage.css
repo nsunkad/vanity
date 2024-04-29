@@ -1,7 +1,6 @@
 @font-face {
-  font-family: 'TypeWriter'; /* Give your font a name to be used in your CSS */
-  src: local('TypeWriter'), /* This will attempt to use the local font if it matches the name */
-       url('../../../assets/JMH-Typewriter-Thin.ttf') format('truetype'); /* Path to your font file */
+  font-family: 'TypeWriter';
+  src: local('TypeWriter'), url('../../../assets/JMH-Typewriter-Thin.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
@@ -9,76 +8,52 @@
 :global(body) {
   margin: 0;
 }
+
 .mybag-container {
-  background-color: #FFC0CB; /* Pale pink background */
-  height: 100vh; /* Full height */
+  background-color: #FFC0CB;
+  height: 100vh;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-family: Typewriter;
-  padding-top: 60px;
-
+  justify-content: flex-start; /* Start aligning content from the top */
+  font-family: 'TypeWriter', sans-serif; /* Ensure the font family is properly named */
+  padding-top: 60px; /* Adjust padding to account for the fixed header height */
 }
 
 .mybag-header {
-  position: fixed; /* Fix the header to the top */
-  top: 0; /* Align it to the top edge of the screen */
+  position: fixed;
+  top: 0;
   left: 0;
   right: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1em;
-  background-color: #FFC0CB; /* Match the background color */
+  background-color: #FFC0CB;
   height: 60px;
+  z-index: 100; /* Higher z-index to ensure it's above the .mybag-bag */
 }
 
-.hamburger-menu {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  width: 80px;
-  height: 80px;
-  cursor: pointer;
-  position: fixed; /* Position the menu icon absolutely within the fixed header */
-  top: 10px; /* Adjust as needed */
-  left: 10px; /* Adjust as needed */
-  z-index: 1001; /* Above the header */
-}
-
-.bar {
-  height: 3px;
-  width: 100%;
-  background-color: white; /* White color for bars */
-  margin: 4px 0;
-  transition: all 0.3s ease;
-}
-
-.menu-items {
-  display: flex;
-  flex-direction: column; /* Align menu items in a column for vertical expansion */
-  position: fixed;
-  top: 0; /* Position below the header */
-  left: 0;
-  width: 250px; /* Full width to match the header */
-  background-color: #FFC0CB; /* Match the background color */
-  padding: 10px 0; /* Add some padding at the top and bottom */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for better separation from the content */
-  z-index: 1000; /* Ensure it is below the hamburger icon but above other content */
-  height: 100%;
-  transform: translateX(-100%); /* Start off the screen */
-  transition: transform 0.3s ease;
+.mybag-name {
+  position: absolute;
+  top: 50%; /* Center vertically within the header */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2.5em;
+  color: white;
+  z-index: 101; /* Ensure it's above the .mybag-header background */
+  text-align: center;
 }
 
 .mybag-bag {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Increase the number of columns to 4 (or more as needed) */
+  grid-template-columns: repeat(4, 1fr);
   gap: 1em;
   padding: 1em;
-  max-width: 800px; /* Increase the max-width as needed */
+  max-width: 800px;
   width: 100%;
+  padding-top: 60px; /* Add top padding to push it below the header */
 }
 
 .mybag-slot {
@@ -88,37 +63,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px; /* Adjust padding to make slots smaller */
+  padding: 10px;
 }
 
-/* .mybag-menuIcon {
-  height: 20px;
-  width: 20px;
-  background-color: #000;
-} */
-
-.mybag-name {
-  position: absolute; /* Position absolutely to override flexbox for this item */
-  top: 350%; /* 50% from the top of the header */
-  left: 50%; /* 50% from the left of the header */
-  transform: translate(-50%, -50%); /* Adjust to center the text exactly */
-  font-size: 2.5em; /* Adjust font size as needed */
-  color: #ffff; /* Text color */
-  z-index: 10; /* Ensure it's above the background but below the menu icon */
-  flex-grow: 1; /* Allow the title to take up the available space */
-  text-align: center;
-}
-
-.menu-items.open {
-  transform: translateX(0); /* Bring the sidebar onto the screen */
-}
-
-.menu-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent overlay */
-  z-index: 999;
-}
+/* Remove any unused CSS rules */

@@ -56,32 +56,34 @@ Content-Type: application/json
 Upon login or registration, the backend returns the UserId
 """
 
-@bagItems_bp.route('/bag-items', methods=['GET'])
+@bagItems_bp.route('/bag-items', methods=['POST'])
 def get_bag_items():
-    
     body = request.json
     if not body:
         return jsonify({"error": "No data provided"}), 400
+    
     try:
         userId: str = body['userId']
     except Exception as e:
-       return jsonify({"error": f"Error parsing request: {str(e)}"}), 400 
-   
-    # Get all the ProductIds in UserId's bag
+        return jsonify({"error": f"Error parsing request: {str(e)}"}), 400 
+
+    # Get all the ProductIds and their names in UserId's bag
     cursor = sql_cursor()
-    query = "SELECT ProductId FROM BagItems WHERE UserId = %s"
+    query = """
+        SELECT BI.ProductId, P.ProductName 
+        FROM BagItems BI
+        JOIN Products P ON BI.ProductId = P.ProductId
+        WHERE BI.UserId = %s
+    """
     cursor.execute(query, (userId,))
     results = cursor.fetchall()
     
     if not results:
         return jsonify({"success": []}), 200
     else:
-        product_ids = []
-        
-        for row in results:
-            product_ids.append(row[0])
-    
-    return jsonify({"success": product_ids}), 200
+        product_details = [{"productId": row[0], "productName": row[1]} for row in results]
+        return jsonify({"success": product_details}), 200
+
 
 
 @bagItems_bp.route('/delete-bag-item', methods=['DELETE'])

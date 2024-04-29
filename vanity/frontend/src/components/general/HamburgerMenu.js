@@ -1,29 +1,30 @@
 import React, { useState } from 'react';
-import './HamburgerMenu.css'; // Make sure to create this CSS file
+import './HamburgerMenu.css';
 
 const HamburgerMenu = () => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [menuOpen, setMenuOpen] = useState(false);
 
     const toggleMenu = () => {
-        setIsOpen(!isOpen);
+        setMenuOpen(!menuOpen);
     };
 
     return (
-        <div className="hamburger-menu">
-            <div className="menu-icon" onClick={toggleMenu}>
-                <div className={isOpen ? "bar1 change" : "bar1"}></div>
-                <div className={isOpen ? "bar2 change" : "bar2"}></div>
-                <div className={isOpen ? "bar3 change" : "bar3"}></div>
+        <>
+            {menuOpen && <div className="navigation-overlay" onClick={toggleMenu}></div>}
+            <div className="hamburger-icon" onClick={toggleMenu}>
+                <div className="hamburger-bar"></div>
+                <div className="hamburger-bar"></div>
+                <div className="hamburger-bar"></div>
             </div>
-            {isOpen && (
-                <div className="menu-items">
-                    <a href="/">Home</a>
-                    <a href="/about">About</a>
-                    <a href="/services">Services</a>
-                    <a href="/contact">Contact</a>
+            {menuOpen && (
+                <div className={`navigation-menu ${menuOpen ? 'open' : ''}`}>
+                    <a href="/mybag">My Bag</a>
+                    <a href="/friends">Find Friends</a>
+                    <a href="/products">Product Lookup</a>
+                    <a href="/">Logout</a>
                 </div>
             )}
-        </div>
+        </>
     );
 };
 

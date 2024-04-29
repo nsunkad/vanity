@@ -71,7 +71,7 @@ class SignUpPage extends React.Component {
   render() {
     const { firstname, lastname, username, password, email, errorMessage, submissionSuccess } = this.state;
     // Only construct the welcome message if submission is successful
-    const welcomeMessage = submissionSuccess && this.context.user ? `Welcome to Vanity, ${this.context.user.firstname}!` : "";
+    const welcomeMessage = submissionSuccess && this.context.user ? `welcome to vanity, ${this.context.user.firstname}!` : "";
 
     return (
       <div className="signup-container">
@@ -131,7 +131,7 @@ class SignUpPage extends React.Component {
           }
           {errorMessage && <p className="error-message">
             {errorMessage.includes("account with this email already exists") ?
-              <>Account with this email already exists. Click <LogInLink /> to log in.</> :
+              <>account with this email already exists. click <LogInLink /> to log in.</> :
               errorMessage}
           </p>}
         </form>

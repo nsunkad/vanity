@@ -39,3 +39,10 @@
     align-items: center;
     justify-content: center;
   }
+
+  .login-success {
+    color: white;
+    font-size: 26px;
+    font-family: Typewriter;
+    padding: 10px;
+  }

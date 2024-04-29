@@ -22,16 +22,20 @@
 }
 
 .bag-button {
-  background-color: white;
-  color: grey;
-  font-size: 20px;
+  height: 60px;
+  width: 60px;
+  background-color: #FFC0CB;
+  color: white;
+  font-size: 40px;
   cursor: pointer;
-  padding: 6px 12px;
   font-family: Typewriter;
   border-radius: 15%;
   border: none;
   transition: background-color 0.3s ease;
   margin-top: 12px;
+  display: flex;   /* Ensures content is centered within the button */
+  align-items: center; /* Center content vertically */
+  justify-content: center; /* Center content horizontally */
 }
   
 .bag-button:hover, .bag-button:active {

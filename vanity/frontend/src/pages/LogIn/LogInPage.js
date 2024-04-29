@@ -74,7 +74,7 @@ function LogInPage() {
                 <SubmitButton/>
                 {loginSuccessful && user && (
                     <>
-                        <p className="login-success">Welcome to Vanity, {user.firstName}!</p>
+                        <p className="login-success">welcome to vanity, {user.firstName}!</p>
                         <MyBagButton />
                     </>
                 )}
