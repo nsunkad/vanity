@@ -122,3 +122,22 @@ Returned JSON Example 2
 }
 
 """
+
+@products_bp.route('/lookup-products', methods=['GET'])
+def lookup_products():
+    search_string = request.args.get('search')
+
+    if not search_string:
+        return jsonify({"error": "Search string required"}), 400
+    
+    try:
+        cursor = sql_cursor()
+        query = """SELECT ProductName, BrandName
+                    FROM Products natural join Brands
+                    WHERE MATCH (ProductName) AGAINST (%s WITH QUERY EXPANSION) limit 15;"""
+        cursor.execute(query, (search_string,))
+        rows = cursor.fetchall()
+        results = [{"Name": row[0], "Brand": row[1]} for row in rows]
+        return jsonify(results), 200
+    except Exception as e:
+        return jsonify({"error": f"Error querying database: {str(e)}"}), 500
