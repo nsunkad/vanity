@@ -72,14 +72,14 @@ function LogInPage() {
                     />
                 </div>
                 <SubmitButton/>
-                {loginSuccessful && user && (
-                    <>
-                        <p className="login-success">welcome to vanity, {user.firstName}!</p>
-                        <MyBagButton />
-                    </>
-                )}
-                {errorMessage && <p className="error-message">{errorMessage}</p>}
             </form>
+            {loginSuccessful && user && (
+                <>
+                    <p className="login-success">welcome to vanity, {user.firstName}!</p>
+                    <MyBagButton />
+                </>
+                )}
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
         </div>
     );
 }

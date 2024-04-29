@@ -122,7 +122,8 @@ class SignUpPage extends React.Component {
               placeholder="Email"
             />
           </div>
-          <SubmitButton />
+          <SubmitButton/>
+        </form>
           {submissionSuccess &&
             <>
               <p className="signup-success">{ welcomeMessage }</p>
@@ -134,7 +135,7 @@ class SignUpPage extends React.Component {
               <>account with this email already exists. click <LogInLink /> to log in.</> :
               errorMessage}
           </p>}
-        </form>
+        
       </div>
     );
   }

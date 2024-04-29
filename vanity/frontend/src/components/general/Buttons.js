@@ -31,13 +31,13 @@ export function SignUpButton() {
 }
 
 //SubmitButton Component
-export function SubmitButton({onSubmit}) {
+export function SubmitButton() {
   return (
     <div>
-      <button onClick={onSubmit} className="vanity-button">submit</button>
+      <button type="submit" className="vanity-button">submit</button>
     </div>
-    
-); }
+  );
+}
 
 export function MyBagButton() {
   const navigate = useNavigate();
@@ -47,7 +47,7 @@ export function MyBagButton() {
   };
 
   return (
-    <button onClick={navigateToMyBag} className="bag-button">
+    <button onClick={navigateToMyBag} type="button" className="bag-button" >
       <FontAwesomeIcon icon={faShoppingBag} />
     </button>
   );

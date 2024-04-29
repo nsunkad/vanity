@@ -1,12 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useUser } from '../../context/UserContext.js';
+
 import './HamburgerMenu.css';
 
 const HamburgerMenu = () => {
+    const { user } = useUser();
     const [menuOpen, setMenuOpen] = useState(false);
 
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
     };
+
+    useEffect(() => {
+        console.log('User ID:', user.user_id);
+        console.log('User name:', user.firstName);
+        // Fetch bag items data when component mounts
+      }, []);
 
     return (
         <>
