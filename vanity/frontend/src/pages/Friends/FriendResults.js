@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { MyBagButton } from '../../components/general/Buttons.js';
 import './FriendResults.css';
 import { useLocation } from 'react-router-dom';
+import HamburgerMenu from '../../components/general/HamburgerMenu.js';
 
 function FriendResults() {
     const { state } = useLocation();
@@ -22,6 +23,7 @@ function FriendResults() {
 
   return (
     <div className="results-container">
+      <HamburgerMenu />
       <h1>search results</h1>
       <p>click on a friend’s bag to view their bag items!</p>
       <table>
