@@ -7,6 +7,9 @@ import SignUpPage from './pages/SignUp/SignUpPage';
 import MyBagPage from './pages/MyBag/MyBagPage';
 import FriendSearchPage from './pages/Friends/FriendSearchPage';
 import FriendResults from './pages/Friends/FriendResults';
+import FriendBagPage from './pages/Friends/FriendBagPage';
+import ProductSearchPage from './pages/Products/ProductSearchPage';
+import ProductResults from './pages/Products/ProductResults';
 
 const App = () => {
   return (
@@ -19,6 +22,9 @@ const App = () => {
           <Route path="/mybag" element={<MyBagPage />} />
           <Route path="/friends" element={<FriendSearchPage />} />
           <Route path="/friendresults" element={<FriendResults />} />
+          <Route path="/friendbag/:userid" element={<FriendBagPage />} />
+          <Route path="/productsearch" element={<ProductSearchPage />} />
+          <Route path="/productresults" element={<ProductResults />} />
         </Routes>
       </Router>
     </UserProvider>
