@@ -144,7 +144,6 @@ Content-Type: application/json
 {
     "userId": "nsunkad"
 }
-The backend will generate a unique userId for each user upon registration
 """
 @userAuth_bp.route('/delete-account', methods=['DELETE'])
 def delete():

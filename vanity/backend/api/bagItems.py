@@ -56,36 +56,30 @@ Content-Type: application/json
 Upon login or registration, the backend returns the UserId
 """
 
-@bagItems_bp.route('/bag-items', methods=['POST'])
+@bagItems_bp.route('/bag-items', methods=['GET'])
 def get_bag_items():
-    print("Received request body:", request.get_json())
-    body = request.json
-    if not body:
-        return jsonify({"error": "No data provided"}), 400
+    userId = request.args.get('userid')
+    if not userId:
+        return jsonify({"error": "No userId provided"}), 400
     
     try:
-        userId: str = body['userId']
+        # Get all the ProductIds and their names in UserId's bag
+        cursor = sql_cursor()
+        query = """
+            SELECT BI.ProductId, P.ProductName 
+            FROM BagItems BI NATURAL JOIN Products P
+            WHERE BI.UserId = %s;
+        """
+        cursor.execute(query, (userId,))
+        results = cursor.fetchall()
+        
+        if not results:
+            return jsonify({"success": []}), 200
+        else:
+            product_details = [{"productId": row[0], "productName": row[1]} for row in results]
+            return jsonify({"success": product_details}), 200
     except Exception as e:
-        return jsonify({"error": f"Error parsing request: {str(e)}"}), 400 
-
-    # Get all the ProductIds and their names in UserId's bag
-    cursor = sql_cursor()
-    query = """
-        SELECT BI.ProductId, P.ProductName 
-        FROM BagItems BI
-        JOIN Products P ON BI.ProductId = P.ProductId
-        WHERE BI.UserId = %s
-    """
-    cursor.execute(query, (userId,))
-    results = cursor.fetchall()
-    
-    if not results:
-        return jsonify({"success": []}), 200
-    else:
-        product_details = [{"productId": row[0], "productName": row[1]} for row in results]
-        print("Product details:", product_details)
-        return jsonify({"success": product_details}), 200
-
+        return jsonify({"error": f"Error querying database: {str(e)}"}), 500
 
 
 @bagItems_bp.route('/delete-bag-item', methods=['DELETE'])

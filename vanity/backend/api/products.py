@@ -17,7 +17,7 @@ Content-Type: application/json
 Returns: JSON object (examples below)
 """
 
-@products_bp.route('/product-info', methods=['GET'])
+@products_bp.route('/product-info', methods=['POST'])
 def get_product_info():
     
     body = request.json
