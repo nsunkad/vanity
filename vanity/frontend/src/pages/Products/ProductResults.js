@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { MyBagButton } from '../../components/general/Buttons.js'; // Assuming you have a button suitable for product page navigation
 import './ProductResults.css'; // Assuming CSS styles similar to FriendResults.css
 import { useLocation } from 'react-router-dom';
+import HamburgerMenu from '../../components/general/HamburgerMenu.js';
 
 function ProductResults() {
     const { state } = useLocation();
@@ -20,6 +21,7 @@ function ProductResults() {
 
   return (
     <div className="results-container">
+        <HamburgerMenu />
       <h1>product search results</h1>
       <p>click on the icon to navigate to the product page!</p>
       <table>
