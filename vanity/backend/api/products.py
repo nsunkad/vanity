@@ -17,99 +17,96 @@ Content-Type: application/json
 Returns: JSON object (examples below)
 """
 
-@products_bp.route('/product-info', methods=['POST'])
+@products_bp.route('/product-info', methods=['GET'])
 def get_product_info():
-    
-    body = request.json
-    if not body:
-        return jsonify({"error": "No data provided"}), 400
-    try:
-        productId: str = body['productId']
-        print(productId)
-    except Exception as e:
-       return jsonify({"error": f"Error parsing request: {str(e)}"}), 400 
+    productId = request.args.get('product_id')
+    if not productId:
+        return jsonify({"error": "No productId provided"}), 400
    
-    # Get all the stats for a ProductId
-    cursor = sql_cursor()
-    
-    query = """SELECT Pro.ProductId, Pro.ProductName, Pro.Size, Pro.Price, Pro.LikeCount, B.BrandName, Res.AvgRating, Res.TotalNumReviews
-               FROM Products Pro LEFT OUTER JOIN 
-                    Brands B ON B.BrandId = Pro.BrandId
-                    LEFT OUTER JOIN
-                    (
-                        SELECT ProductId, AVG(Rating) as AvgRating, COUNT(*) as TotalNumReviews
-                        FROM Reviews
-                        WHERE ProductId = %s
-                    ) AS Res
-               ON Res.ProductId = Pro.ProductId
-               WHERE Pro.ProductId = %s
-            """
-    cursor.execute(query, (productId, productId))
-    results = cursor.fetchone()
-    
-    productId = results[0]
-    productName = results[1]
-    productURL = f"sephora.com/{productId}"
-    size = results[2]
-    price = results[3]
-    likeCount = results[4]
-    brandName = results[5]
-    isPopular = False
-    avgRating = float(results[6])
-    totalNumReviews = results[7]
-    reviewStringToDisplay = f"{avgRating}/5 avg rating (from {totalNumReviews} reviews)"
-    usersAlsoBagged = {}
-    
-    
-    popular_products_adv_query = """
-                                    (SELECT Pro.ProductName, B.BrandName, Subquery.TimesBagged  
-                                    FROM (SELECT Bag.ProductId, COUNT(Bag.ProductId) as TimesBagged FROM BagItems Bag GROUP BY Bag.ProductId) Subquery 
-                                    LEFT OUTER JOIN Products Pro ON Pro.ProductId = Subquery.ProductId 
-                                    LEFT OUTER JOIN Brands B ON B.BrandId = Pro.BrandId
-                                    WHERE (Subquery.TimesBagged >= 0.8 * (SELECT MAX(Subquery2.TimesBagged) 
-                                    FROM (SELECT Bag.ProductId, COUNT(Bag.ProductId) as TimesBagged 
-                                    FROM BagItems Bag 
-                                    GROUP BY Bag.ProductId) Subquery2)))"""
-                                    
-    cursor.execute(popular_products_adv_query)
-    results = cursor.fetchall()
-    
-    for row in results:
-        if row[0] == productName:
-            isPopular = True
-    
-    users_also_bagged_adv_query = """
-                                    SELECT BI.ProductId AS OtherPID, P.ProductName, AVG(R.Rating) AS AverageRating, COUNT(R.ReviewId) AS NumberOfReviews 
-                                    FROM BagItems BI JOIN Products P ON BI.ProductId = P.ProductId 
-                                    JOIN 
-                                        (SELECT ProductId,MAX(ReviewId) AS LatestReviewId FROM Reviews GROUP BY ProductId) 
-                                         AS LatestReview ON BI.ProductId = LatestReview.ProductId 
-                                    JOIN Reviews R ON LatestReview.LatestReviewId = R.ReviewId WHERE BI.ProductId != %s AND BI.UserId IN (SELECT UserId 
-                                    FROM BagItems WHERE ProductId = %s) GROUP BY BI.ProductId, P.ProductName  ORDER BY BI.ProductId;"""
-    
-    cursor.execute(users_also_bagged_adv_query, (productId, productId))
-    results = cursor.fetchall()
-    
-    for row in results:
-        otherPid = row[0]
-        otherProductName = row[1]
-        otherAvgRating = float(row[2])
-        otherNumReviews = row[3]
-        usersAlsoBagged[otherPid] = {"productName": otherProductName, "avgRating": otherAvgRating, "numReviews": otherNumReviews}
+    try:
+        # Get all the stats for a ProductId
+        cursor = sql_cursor()
+        
+        query = """SELECT Pro.ProductId, Pro.ProductName, Pro.Size, Pro.Price, Pro.LikeCount, B.BrandName, Res.AvgRating, Res.TotalNumReviews
+                FROM Products Pro LEFT OUTER JOIN 
+                        Brands B ON B.BrandId = Pro.BrandId
+                        LEFT OUTER JOIN
+                        (
+                            SELECT ProductId, AVG(Rating) as AvgRating, COUNT(*) as TotalNumReviews
+                            FROM Reviews
+                            WHERE ProductId = %s
+                        ) AS Res
+                ON Res.ProductId = Pro.ProductId
+                WHERE Pro.ProductId = %s
+                """
+        cursor.execute(query, (productId, productId))
+        results = cursor.fetchone()
+        
+        productId = results[0]
+        productName = results[1]
+        productURL = f"sephora.com/{productId}"
+        size = results[2]
+        price = results[3]
+        likeCount = results[4]
+        brandName = results[5]
+        isPopular = False
+        avgRating = float(results[6])
+        totalNumReviews = results[7]
+        reviewStringToDisplay = f"{avgRating}/5 avg rating (from {totalNumReviews} reviews)"
+        usersAlsoBagged = {}
+        
+        
+        popular_products_adv_query = """
+                                        (SELECT Pro.ProductName, B.BrandName, Subquery.TimesBagged  
+                                        FROM (SELECT Bag.ProductId, COUNT(Bag.ProductId) as TimesBagged FROM BagItems Bag GROUP BY Bag.ProductId) Subquery 
+                                        LEFT OUTER JOIN Products Pro ON Pro.ProductId = Subquery.ProductId 
+                                        LEFT OUTER JOIN Brands B ON B.BrandId = Pro.BrandId
+                                        WHERE (Subquery.TimesBagged >= 0.8 * (SELECT MAX(Subquery2.TimesBagged) 
+                                        FROM (SELECT Bag.ProductId, COUNT(Bag.ProductId) as TimesBagged 
+                                        FROM BagItems Bag 
+                                        GROUP BY Bag.ProductId) Subquery2)))"""
+                                        
+        cursor.execute(popular_products_adv_query)
+        results = cursor.fetchall()
+        
+        for row in results:
+            if row[0] == productName:
+                isPopular = True
+        
+        users_also_bagged_adv_query = """
+                                        SELECT BI.ProductId AS OtherPID, P.ProductName, AVG(R.Rating) AS AverageRating, COUNT(R.ReviewId) AS NumberOfReviews 
+                                        FROM BagItems BI JOIN Products P ON BI.ProductId = P.ProductId 
+                                        JOIN 
+                                            (SELECT ProductId,MAX(ReviewId) AS LatestReviewId FROM Reviews GROUP BY ProductId) 
+                                            AS LatestReview ON BI.ProductId = LatestReview.ProductId 
+                                        JOIN Reviews R ON LatestReview.LatestReviewId = R.ReviewId WHERE BI.ProductId != %s AND BI.UserId IN (SELECT UserId 
+                                        FROM BagItems WHERE ProductId = %s) GROUP BY BI.ProductId, P.ProductName  ORDER BY BI.ProductId;"""
+        
+        cursor.execute(users_also_bagged_adv_query, (productId, productId))
+        results = cursor.fetchall()
+        
+        for row in results:
+            otherPid = row[0]
+            otherProductName = row[1]
+            otherAvgRating = float(row[2])
+            otherNumReviews = row[3]
+            usersAlsoBagged[otherPid] = {"productName": otherProductName, "avgRating": otherAvgRating, "numReviews": otherNumReviews}
 
-    
-    return jsonify({"productId": productId, 
-                    "productName": productName,
-                    "productURL": productURL,
-                    "size": size,
-                    "price": price, 
-                    "likeCount": likeCount, 
-                    "brandName": brandName, 
-                    "isPopular": isPopular,
-                    "avgRating": avgRating, 
-                    "totalNumReviews": totalNumReviews,
-                    "usersAlsoBagged": usersAlsoBagged,
-                    "reviewStringToDisplay": reviewStringToDisplay}), 200
+        
+        return jsonify({"productId": productId, 
+                        "productName": productName,
+                        "productURL": productURL,
+                        "size": size,
+                        "price": price, 
+                        "likeCount": likeCount, 
+                        "brandName": brandName, 
+                        "isPopular": isPopular,
+                        "avgRating": avgRating, 
+                        "totalNumReviews": totalNumReviews,
+                        "usersAlsoBagged": usersAlsoBagged,
+                        "reviewStringToDisplay": reviewStringToDisplay}), 200
+    except Exception as e:
+        return jsonify({"error": f"Error getting product info: {str(e)}"}), 500
 
 """
 Returned JSON Example 1
