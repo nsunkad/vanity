@@ -12,7 +12,7 @@ const HamburgerMenu = () => {
     };
 
     useEffect(() => {
-        console.log('User ID:', user.user_id);
+        console.log('User ID:', user.userId);
         console.log('User name:', user.firstName);
         // Fetch bag items data when component mounts
       }, []);
@@ -30,6 +30,7 @@ const HamburgerMenu = () => {
                     <a href="http://localhost:3000/mybag">My Bag</a>
                     <a href="http://localhost:3000/friends">Find Friends</a>
                     <a href="http://localhost:3000/productsearch">Product Lookup</a>
+                    <a href="http://localhost:3000/updateprofile">Update Profile</a>
                     <a href="/">Logout</a>
                 </div>
             )}

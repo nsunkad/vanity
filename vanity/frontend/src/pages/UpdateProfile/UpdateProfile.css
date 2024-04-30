@@ -1,0 +1,59 @@
+@font-face {
+    font-family: 'TypeWriter'; /* Give your font a name to be used in your CSS */
+    src: local('TypeWriter'), /* This will attempt to use the local font if it matches the name */
+         url('../../../assets/JMH-Typewriter-Thin.ttf') format('truetype'); /* Path to your font file */
+    font-weight: normal;
+    font-style: normal;
+  }
+
+.profile-container {
+  background-color: #FFC0CB; /* Pale pink background */
+  height: 100vh; /* Full height */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: Typewriter;
+}
+  
+  .profile-container h1 {
+    color: white;
+    font-size: 40px;
+  }
+  
+  .profile-container form {
+    display: flex;
+    flex-direction: column;
+    border: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .profile-container input {
+    font-family: Typewriter;
+    border: none;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: white;
+    color: grey;
+    border-radius: 5px;
+  }
+
+  #save {
+    width: 80px;
+  }
+
+  .pword {
+    color:white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .success-message {
+    color: white;
+  }
+  
