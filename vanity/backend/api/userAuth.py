@@ -130,7 +130,7 @@ def register():
         cursor.execute(verification_query, (userId,))
         results = cursor.fetchall()
         if results:
-            ret = [{"userId": row[0], "userName": row[1], "password": row[2], "firstName": row[3], "lastName": row[4], "email": row[5], "searchCount": row[6]} for row in results]
+            ret = [{"userId": row[0], "userName": row[1], "firstName": row[3], "lastName": row[4], "email": row[5], "searchCount": row[6]} for row in results]
             return jsonify(ret[0]), 200
         else:
             return jsonify({"error": "User not found after insert"}), 404
@@ -190,7 +190,6 @@ def update():
     try:
         userId: int = body['userId']
         username: str = body['username']
-        password: str = body['password']
         firstname: str =  body['firstname']
         lastname: str =  body['lastname']
         email: str = body['email']
@@ -208,18 +207,14 @@ def update():
         if results:
             if results[0][0] != userId:
                 return jsonify({"error": "This username is taken. Please choose another username"}), 400
-
-        # Hash the password
-        hashed_password = hash_password(password)
         
         update_query = """UPDATE Users
                           SET UserName = %s,
-                              Password = %s,
                               FirstName = %s,
                               LastName = %s,
                               Email = %s
                           WHERE UserId = %s"""
-        cursor.execute(update_query, (username, hashed_password, firstname, lastname, email, userId))
+        cursor.execute(update_query, (username, firstname, lastname, email, userId))
         db.commit()
     except:
         return jsonify({"error": f"Failed to delete account"}), 404
@@ -229,7 +224,7 @@ def update():
         cursor.execute(verification_query, (userId,))
         results = cursor.fetchall()
         if results:
-            ret = [{"userId": row[0], "userName": row[1], "password": row[2], "firstName": row[3], "lastName": row[4], "email": row[5], "searchCount": row[6]} for row in results]
+            ret = [{"userId": row[0], "userName": row[1], "firstName": row[3], "lastName": row[4], "email": row[5], "searchCount": row[6]} for row in results]
             return jsonify(ret[0]), 200
         else:
             return jsonify({"error": "User not found after update"}), 404
