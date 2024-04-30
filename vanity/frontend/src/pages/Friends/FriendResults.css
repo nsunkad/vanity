@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'TypeWriter';
-    src: local('TypeWriter'), url('../../../assets/JMH-Typewriter-Thin.ttf') format('truetype');
+    src: local('TypeWriter'), url('../../assets/JMH-Typewriter-Thin.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }

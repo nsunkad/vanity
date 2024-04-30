@@ -18,6 +18,8 @@ function FriendResults() {
         }
     }, [results.length]); // Dependency on results.length to avoid unnecessary fetches
 
+    console.log(results.length);
+
   return (
     <div className="results-container">
       <h1>search results</h1>
