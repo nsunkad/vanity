@@ -2,10 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useUser } from '../../context/UserContext.js';
 import './MyBagPage.css';
 import HamburgerMenu from '../../components/general/HamburgerMenu.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const MyBagPage = () => {
   const { user } = useUser();
   const [bagItems, setBagItems] = useState([]);
+  const [showAddItemForm, setShowAddItemForm] = useState(false);
+  const [productId, setProductId] = useState('');
 
   useEffect(() => {
     if (user && user.user_id) {
@@ -16,7 +20,7 @@ const MyBagPage = () => {
   }, [user]);
 
   const fetchBagItems = (userId) => {
-    fetch(`http://localhost:8000/bag-items/${user.user_id}`, {
+    fetch(`http://localhost:8000/bag-items?userid=${user.user_id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -39,13 +43,52 @@ const MyBagPage = () => {
     });
   };
 
+  const handleAddItem = (event) => {
+    //event.preventDefault();  // Prevent the form from causing a page reload
+    fetch('http://localhost:8000/create-bag-item', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ userId: user.user_id, productId: productId })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.error) {
+        console.error('Error:', data.error);
+      } else {
+        console.log('Bag Items:', data.success);
+        setBagItems(prevItems => [...prevItems, data]);  // Assuming the API returns the added item
+        setShowAddItemForm(false);  // Close the form after submission
+        setProductId('');  // Reset the input field
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching bag items:', error);
+    });
+  };
+
   return (
     <div className="mybag-container">
       <HamburgerMenu />
       <div className="mybag-header">
         <h1 className="mybag-name">{user.firstName}'s bag</h1>
-        <div className="mybag-addIcon" />
+        <div className="mybag-addIcon" onClick={() => setShowAddItemForm(prev => !prev)}>
+          <FontAwesomeIcon icon={faPlus} />
       </div>
+      </div>
+      {showAddItemForm && (
+        <form onSubmit={handleAddItem} className="add-item-form">
+          <input
+            type="text"
+            value={productId}
+            onChange={(e) => setProductId(e.target.value)}
+            placeholder="enter product id"
+            required
+          />
+          <button type="submit">add product</button>
+        </form>
+      )}
       <div className="mybag-bag">
         {/* Map over bagItems to display each product's name */}
         {bagItems.map((item, index) => (
