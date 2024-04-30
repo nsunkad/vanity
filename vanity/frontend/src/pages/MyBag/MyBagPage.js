@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useUser } from '../../context/UserContext.js';
 import './MyBagPage.css';
 import HamburgerMenu from '../../components/general/HamburgerMenu.js';
-import { LinkPreview } from '@dhaiwat10/react-link-preview';
 
 const MyBagPage = () => {
   const { user } = useUser();
@@ -16,14 +15,12 @@ const MyBagPage = () => {
     }
   }, [user]);
 
-  const fetchBagItems = () => {
-    // API call to get bag items
-    fetch('http://localhost:8000/bag-items', {
-      method: 'POST',
+  const fetchBagItems = (userId) => {
+    fetch(`http://localhost:8000/bag-items/${user.user_id}`, {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ userId: String(user.user_id) }), // Make sure to send the correct user ID
     })
     .then((response) => {
       if (!response.ok) {
@@ -34,7 +31,7 @@ const MyBagPage = () => {
     .then((data) => {
       if (data.success) {
         console.log('Bag Items:', data.success);
-        setBagItems(data.success); // Set the bag items to state
+        setBagItems(data.success);
       }
     })
     .catch((error) => {
