@@ -35,6 +35,21 @@
   z-index: 100; /* Higher z-index to ensure it's above the .mybag-bag */
 }
 
+.mybag-addIcon {
+  color: white;
+  font-size: 50px;
+  cursor: pointer;
+  position: fixed;
+  top: 10px;
+  left: 1370px;
+  z-index: 1001; /* Above the header */
+  transition: color 0.3s ease;
+}
+
+.mybag-addIcon:hover {
+  color: #b7717c;
+}
+
 .mybag-name {
   position: absolute;
   top: 50%; /* Center vertically within the header */

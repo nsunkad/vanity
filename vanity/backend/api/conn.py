@@ -10,7 +10,7 @@ def create_db_connection():
             user="root",
             password="vanity-sql-1",
             database="MojoDojoDB",
-            #ssl_disabled=True  # Use only if necessary for testing
+            ssl_disabled=True  # Use only if necessary for testing
         )
         print("MySQL Database connection successful")
     except Error as e:

@@ -58,6 +58,7 @@ Upon login or registration, the backend returns the UserId
 
 @bagItems_bp.route('/bag-items', methods=['POST'])
 def get_bag_items():
+    print("Received request body:", request.get_json())
     body = request.json
     if not body:
         return jsonify({"error": "No data provided"}), 400
@@ -82,6 +83,7 @@ def get_bag_items():
         return jsonify({"success": []}), 200
     else:
         product_details = [{"productId": row[0], "productName": row[1]} for row in results]
+        print("Product details:", product_details)
         return jsonify({"success": product_details}), 200
 
 
