@@ -39,7 +39,7 @@ def create_bag_item():
         if not results:
             return jsonify({"error": f"Error retrieving data after insert: {str(e)}"}), 500
         else:
-            return jsonify(results[0]), 200
+            return jsonify({"success": "Product successfully inserted into user's bag"}), 200
     except Exception as e:
         return jsonify({"error": f"Error retrieving data after insert: {str(e)}"}), 500
 
@@ -97,7 +97,7 @@ def delete_bag_item():
         db.commit()
 
         if cursor.rowcount > 0:
-            return jsonify({"message": "Bag item deleted successfully"}), 200
+            return jsonify({"success": "Bag item deleted successfully"}), 200
         else:
             return jsonify({"error": "No matching bag item found for deletion"}), 404
     except Exception as e:
