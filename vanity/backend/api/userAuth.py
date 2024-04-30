@@ -36,7 +36,7 @@ def login():
 
     if not results:
         return jsonify({"error": f"Username does not exist"}), 404
-    user_id, username, result_password, first_name, last_name, email = results[0]
+    user_id, username, result_password, first_name, last_name, email, search_count = results[0]
     if bcrypt.checkpw(password.encode('utf-8'), result_password.encode('utf-8')):
         user_info = {
             "user_id": user_id,
