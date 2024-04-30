@@ -1,1 +1,73 @@
-
+@font-face {
+    font-family: 'TypeWriter';
+    src: local('TypeWriter'), url('../../assets/JMH-Typewriter-Thin.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  :global(body) {
+    margin: 0;
+  }
+  
+  .friendbag-container {
+    background-color: #FFC0CB;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Start aligning content from the top */
+    font-family: 'TypeWriter', sans-serif; /* Ensure the font family is properly named */
+    padding-top: 60px; /* Adjust padding to account for the fixed header height */
+  }
+  
+  .friendbag-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em;
+    background-color: #FFC0CB;
+    height: 60px;
+    z-index: 100; /* Higher z-index to ensure it's above the .mybag-bag */
+  }
+  
+  .mybag-addIcon:hover {
+    color: #b7717c;
+  }
+  
+  .friendbag-name {
+    position: absolute;
+    top: 50%; /* Center vertically within the header */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2.5em;
+    color: white;
+    z-index: 101; /* Ensure it's above the .mybag-header background */
+    text-align: center;
+  }
+  
+  .friendbag-bag {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1em;
+    padding: 1em;
+    max-width: 800px;
+    width: 100%;
+    padding-top: 60px; /* Add top padding to push it below the header */
+  }
+  
+  .friendbag-slot {
+    background-color: #fff;
+    border: 1px solid #eee;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    color: grey;
+    text-align: center;
+  }

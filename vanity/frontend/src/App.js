@@ -23,7 +23,7 @@ const App = () => {
           <Route path="/mybag" element={<MyBagPage />} />
           <Route path="/friends" element={<FriendSearchPage />} />
           <Route path="/friendresults" element={<FriendResults />} />
-          <Route path="/friendbag/:userid" element={<FriendBagPage />} />
+          <Route path="/bagpage/:UserName" element={<FriendBagPage />} />
           <Route path="/productsearch" element={<ProductSearchPage />} />
           <Route path="/productresults" element={<ProductResults />} />
           <Route path="/updateprofile" element={<UpdateProfilePage />} />
