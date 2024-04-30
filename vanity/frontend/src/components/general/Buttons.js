@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingBag } from '@fortawesome/free-solid-svg-icons';
+import { faCircleArrowRight } from '@fortawesome/free-solid-svg-icons';
 import "./Buttons.css";
 
 // LoginButton Component
@@ -65,5 +66,13 @@ export function LogInLink() {
     <span onClick={navigateToLogin} style={{color: 'blue', textDecoration: 'underline', cursor: 'pointer'}}>
       here
     </span>
+  );
+}
+
+export function Search({onClick}){
+  return (
+    <button onClick={onClick} type="button" className="search-button" >
+      <FontAwesomeIcon icon={faCircleArrowRight} />
+    </button>
   );
 }

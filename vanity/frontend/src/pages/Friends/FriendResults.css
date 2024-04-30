@@ -1,0 +1,60 @@
+@font-face {
+    font-family: 'TypeWriter';
+    src: local('TypeWriter'), url('../../../assets/JMH-Typewriter-Thin.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.results-container {
+    background-color: #FFC0CB; /* Pale pink background */
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    font-family:'TypeWriter', monospace;
+}
+
+.results-container h1 {
+    color: white;
+    margin-bottom: 5px;
+}
+
+.results-container p {
+    margin-bottom: 20px;
+    color: white;
+}
+
+table {
+    width: 90%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 2px solid white;
+}
+
+th, td {
+    text-align: center;
+    padding: 8px;
+    color: white;
+    height: calc(100vh / 17); /* Adjust the height to fit all rows in the viewport */
+}
+
+th {
+    background-color: #FFC0CB;
+}
+
+tr {
+    background-color: #FFC0CB; /* Uniform pale pink background for all rows */
+}
+
+tr:hover {
+    background-color: #F3C2C9; /* Lighter pink for hover effect, if desired */
+}
+
+td:last-child {
+    cursor: pointer;
+    text-align: center;
+}
