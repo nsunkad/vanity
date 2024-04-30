@@ -9,10 +9,10 @@ products_bp = Blueprint('products', __name__)
 Get Product Info endpoint
 
 Request format (with JSON body):
-GET /product-info HTTP/1.1
+POST /product-info HTTP/1.1
 Content-Type: application/json
 {
-    "productId": "P164932"
+    "productId": "P392235"
 }
 Returns: JSON object (examples below)
 """
@@ -58,6 +58,7 @@ def get_product_info():
     avgRating = float(results[6])
     totalNumReviews = results[7]
     reviewStringToDisplay = f"{avgRating}/5 avg rating (from {totalNumReviews} reviews)"
+    usersAlsoBagged = {}
     
     
     popular_products_adv_query = """
@@ -76,6 +77,25 @@ def get_product_info():
     for row in results:
         if row[0] == productName:
             isPopular = True
+    
+    users_also_bagged_adv_query = """
+                                    SELECT BI.ProductId AS OtherPID, P.ProductName, AVG(R.Rating) AS AverageRating, COUNT(R.ReviewId) AS NumberOfReviews 
+                                    FROM BagItems BI JOIN Products P ON BI.ProductId = P.ProductId 
+                                    JOIN 
+                                        (SELECT ProductId,MAX(ReviewId) AS LatestReviewId FROM Reviews GROUP BY ProductId) 
+                                         AS LatestReview ON BI.ProductId = LatestReview.ProductId 
+                                    JOIN Reviews R ON LatestReview.LatestReviewId = R.ReviewId WHERE BI.ProductId != %s AND BI.UserId IN (SELECT UserId 
+                                    FROM BagItems WHERE ProductId = %s) GROUP BY BI.ProductId, P.ProductName  ORDER BY BI.ProductId;"""
+    
+    cursor.execute(users_also_bagged_adv_query, (productId, productId))
+    results = cursor.fetchall()
+    
+    for row in results:
+        otherPid = row[0]
+        otherProductName = row[1]
+        otherAvgRating = float(row[2])
+        otherNumReviews = row[3]
+        usersAlsoBagged[otherPid] = {"productName": otherProductName, "avgRating": otherAvgRating, "numReviews": otherNumReviews}
 
     
     return jsonify({"productId": productId, 
@@ -88,39 +108,61 @@ def get_product_info():
                     "isPopular": isPopular,
                     "avgRating": avgRating, 
                     "totalNumReviews": totalNumReviews,
+                    "usersAlsoBagged": usersAlsoBagged,
                     "reviewStringToDisplay": reviewStringToDisplay}), 200
 
 """
 Returned JSON Example 1
 {
-    "productId": "P164932",
-    "productName": "Minted Rose Lip Balm",
-    "productURL": "sephora.com/P164932",
-    "size": "0.8 oz",
-    "price": 8,
-    "likeCount": 34913,
-    "brandName": "Rosebud Perfume Co.",
-    "isPopular": false,
     "avgRating": 3.9,
-    "totalNumReviews": 10,
-    "reviewStringToDisplay": "3.9/5 avg rating (from 10 reviews)"
-}
-
-Returned JSON Example 2
-{
+    "brandName": "Tatcha",
+    "isPopular": true,
+    "likeCount": 142010,
+    "price": 50,
     "productId": "P392235",
     "productName": "The Camellia Oil 2-in-1 Makeup Remover & Cleanser",
     "productURL": "sephora.com/P392235",
+    "reviewStringToDisplay": "3.9/5 avg rating (from 10 reviews)",
     "size": "5 oz/ 150 mL",
-    "price": 50,
-    "likeCount": 142010,
-    "brandName": "Tatcha",
-    "isPopular": true,
-    "avgRating": 3.9,
     "totalNumReviews": 10,
-    "reviewStringToDisplay": "3.9/5 avg rating (from 10 reviews)"
+    "usersAlsoBagged": {
+        "P438643": {
+            "avgRating": 5.0,
+            "numReviews": 1,
+            "productName": "The Balance pH Balancing Gel Cleanser"
+        },
+        "P441644": {
+            "avgRating": 2.0,
+            "numReviews": 16,
+            "productName": "Mini Superfood Antioxidant Cleanser"
+        },
+        "P465741": {
+            "avgRating": 5.0,
+            "numReviews": 1,
+            "productName": "Wild Huckleberry 8-Acid Polishing Peel Mask"
+        },
+        "P480278": {
+            "avgRating": 4.0,
+            "numReviews": 1,
+            "productName": "Rapid Radiance Set"
+        },
+        "P481084": {
+            "avgRating": 5.0,
+            "numReviews": 16,
+            "productName": "Mini Revitalizing Supreme+ Youth Power Creme Moisturizer"
+        },
+        "P481817": {
+            "avgRating": 4.0,
+            "numReviews": 1,
+            "productName": "Beauty Elixir Prep, Set, Glow Face Mist"
+        },
+        "P505020": {
+            "avgRating": 5.0,
+            "numReviews": 1,
+            "productName": "The POREfessional Good Cleanup Foaming Cleanser"
+        }
+    }
 }
-
 """
 
 @products_bp.route('/lookup-products', methods=['GET'])
