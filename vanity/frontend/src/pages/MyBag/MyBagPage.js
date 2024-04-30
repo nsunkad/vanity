@@ -20,7 +20,7 @@ const MyBagPage = () => {
   }, [user]);
 
   const fetchBagItems = (userId) => {
-    fetch(`http://localhost:8000/bag-items?userid=${user.userId}`, {
+    fetch(`http://localhost:8000/bag-items?username=${user.userName}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
