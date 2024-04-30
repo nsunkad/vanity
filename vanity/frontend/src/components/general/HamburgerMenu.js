@@ -27,9 +27,9 @@ const HamburgerMenu = () => {
             </div>
             {menuOpen && (
                 <div className={`navigation-menu ${menuOpen ? 'open' : ''}`}>
-                    <a href="/mybag">My Bag</a>
-                    <a href="/friends">Find Friends</a>
-                    <a href="/products">Product Lookup</a>
+                    <a href="http://localhost:3000/mybag">My Bag</a>
+                    <a href="http://localhost:3000/friends">Find Friends</a>
+                    <a href="http://localhost:3000/products">Product Lookup</a>
                     <a href="/">Logout</a>
                 </div>
             )}
