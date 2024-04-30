@@ -10,6 +10,7 @@ import FriendResults from './pages/Friends/FriendResults';
 import FriendBagPage from './pages/Friends/FriendBagPage';
 import ProductSearchPage from './pages/Products/ProductSearchPage';
 import ProductResults from './pages/Products/ProductResults';
+import UpdateProfilePage from './pages/UpdateProfile/UpdateProfile';
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
           <Route path="/friendbag/:userid" element={<FriendBagPage />} />
           <Route path="/productsearch" element={<ProductSearchPage />} />
           <Route path="/productresults" element={<ProductResults />} />
+          <Route path="/updateprofile" element={<UpdateProfilePage />} />
         </Routes>
       </Router>
     </UserProvider>

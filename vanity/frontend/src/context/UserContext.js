@@ -19,6 +19,11 @@ export const UserProvider = ({ children }) => {
         setUser(null);
     };
 
+    const updateUser = (newUserData) => {
+        localStorage.setItem('user', JSON.stringify(newUserData)); // Update user data in localStorage
+        setUser(newUserData); // Update user data in state
+    };
+
     // Handle browser refresh by checking if the user data is in localStorage
     useEffect(() => {
         const savedUser = localStorage.getItem('user');
@@ -28,7 +33,7 @@ export const UserProvider = ({ children }) => {
     }, []);
 
     return (
-        <UserContext.Provider value={{ user, login, logout }}>
+        <UserContext.Provider value={{ user, login, logout, updateUser }}>
             {children}
         </UserContext.Provider>
     );
