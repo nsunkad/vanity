@@ -84,6 +84,7 @@ begin
     COMMIT;
     
     select UserName, NumProductsInBag, Similarity from NewTable order by Ord;
+    drop table NewTable;
 
 end //
 
