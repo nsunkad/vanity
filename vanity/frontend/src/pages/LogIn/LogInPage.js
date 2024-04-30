@@ -6,7 +6,7 @@ import { useUser } from '../../context/UserContext.js';
 import { MyBagButton } from '../../components/general/Buttons.js';
 
 function LogInPage() {
-    const [username, setUsername] = useState('');
+    const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const { user, login } = useUser(); // Using context to manage user data
@@ -15,7 +15,7 @@ function LogInPage() {
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         if (name === 'username') {
-            setUsername(value);
+            setUserName(value);
         } else if (name === 'password') {
             setPassword(value);
         }
@@ -28,14 +28,14 @@ function LogInPage() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ username, password })
+            body: JSON.stringify({ username: userName, password: password })
         })
         .then(response => {
           console.log('Response:', response); // logging response
           return response.json();})
         .then(data => {
             console.log('Data:', data); // logging data
-            if (data.user_id) {  // Assuming `user_id` presence indicates success
+            if (data.userId) {  // Assuming `userId` presence indicates success
                 login(data);   // Update user context with received user info
                 setLoginSuccessful(true);
             } else {
@@ -57,7 +57,7 @@ function LogInPage() {
                     <input
                         name="username"
                         type="text"
-                        value={username}
+                        value={userName}
                         onChange={handleInputChange}
                         placeholder="username"
                     />

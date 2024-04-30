@@ -11,10 +11,10 @@ class SignUpPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstname: '',
-      lastname: '',
+      userName: '',
+      firstName: '',
+      lastName: '',
       email: '',
-      username: '',
       password: '',
       submissionSuccess: false,
       errorMessage: ''
@@ -34,13 +34,13 @@ class SignUpPage extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
 
-    const { firstname, lastname, email, username, password } = this.state;
+    const { userName, firstName, lastName, email, password } = this.state;
     const data = {
-        firstname,
-        lastname,
-        email,
-        username,
-        password
+        username: userName,
+        firstname: firstName,
+        lastname: lastName,
+        email: email,
+        password: password
     };
 
     fetch('http://localhost:8000/register', {
@@ -55,7 +55,7 @@ class SignUpPage extends React.Component {
         if (data.error) {
           this.setState({ errorMessage: data.error, submissionSuccess: false });
         } else {
-          this.context.login({ ...data.user, firstname }); // Include firstname in context
+          this.context.login(data); // Update user context with received user info
           this.setState({
             submissionSuccess: true,
             errorMessage: ''
@@ -69,9 +69,9 @@ class SignUpPage extends React.Component {
   };
 
   render() {
-    const { firstname, lastname, username, password, email, errorMessage, submissionSuccess } = this.state;
+    const { userName, firstName, lastName, email, password, submissionSuccess, errorMessage } = this.state;
     // Only construct the welcome message if submission is successful
-    const welcomeMessage = submissionSuccess && this.context.user ? `welcome to vanity, ${this.context.user.firstname}!` : "";
+    const welcomeMessage = submissionSuccess && this.context.user ? `welcome to vanity, ${this.context.user.firstName}!` : "";
 
     return (
       <div className="signup-container">
@@ -79,9 +79,9 @@ class SignUpPage extends React.Component {
         <form onSubmit={ this.handleSubmit }>
           <div className="input-container">
             <input
-              name="username"
+              name="userName"
               type="text"
-              value={ username }
+              value={ userName }
               onChange={ this.handleInputChange }
               placeholder="Username"
             />
@@ -97,18 +97,18 @@ class SignUpPage extends React.Component {
           </div>
           <div className="input-container">
             <input
-              name="firstname"
+              name="firstName"
               type="text"
-              value={ firstname }
+              value={ firstName }
               onChange={ this.handleInputChange }
               placeholder="First Name"
             />
           </div>
           <div className="input-container">
             <input
-              name="lastname"
+              name="lastName"
               type="text"
-              value={ lastname }
+              value={ lastName }
               onChange={ this.handleInputChange }
               placeholder="Last Name"
             />

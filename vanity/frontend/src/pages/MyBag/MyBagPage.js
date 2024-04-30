@@ -12,15 +12,15 @@ const MyBagPage = () => {
   const [productId, setProductId] = useState('');
 
   useEffect(() => {
-    if (user && user.user_id) {
-      console.log('User ID:', user.user_id);
+    if (user && user.userId) {
+      console.log('User ID:', user.userId);
       console.log('User name:', user.firstName);
       fetchBagItems(); // Call the function to fetch bag items when the component mounts
     }
   }, [user]);
 
   const fetchBagItems = (userId) => {
-    fetch(`http://localhost:8000/bag-items?userid=${user.user_id}`, {
+    fetch(`http://localhost:8000/bag-items?userid=${user.userId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ const MyBagPage = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ userId: user.user_id, productId: productId })
+      body: JSON.stringify({ userId: user.userId, productId: productId })
     })
     .then(response => response.json())
     .then(data => {

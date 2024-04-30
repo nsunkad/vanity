@@ -188,7 +188,7 @@ def update():
     if not body:
         return jsonify({"error": "No data provided"}), 400
     try:
-        userId: int = body['userId']
+        userId: int = body['userid']
         username: str = body['username']
         firstname: str =  body['firstname']
         lastname: str =  body['lastname']
