@@ -129,7 +129,8 @@ def register():
         cursor.execute(verification_query, (userId,))
         results = cursor.fetchall()
         if results:
-            return jsonify(results[0]), 200
+            ret = [{"userId": row[0], "userName": row[1], "password": row[2], "firstName": row[3], "lastName": row[4], "email": row[5], "searchCount": row[6]} for row in results]
+            return jsonify(ret[0]), 200
         else:
             return jsonify({"error": "User not found after insert"}), 404
     except Exception as e:
