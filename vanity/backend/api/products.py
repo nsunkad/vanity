@@ -50,7 +50,7 @@ def get_product_info():
         likeCount = results[4]
         brandName = results[5]
         isPopular = False
-        avgRating = float(results[6])
+        avgRating = results[6]
         totalNumReviews = results[7]
         reviewStringToDisplay = f"{avgRating}/5 avg rating (from {totalNumReviews} reviews)"
         usersAlsoBagged = {}
