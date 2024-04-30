@@ -58,19 +58,19 @@ Upon login or registration, the backend returns the UserId
 
 @bagItems_bp.route('/bag-items', methods=['GET'])
 def get_bag_items():
-    userId = request.args.get('userid')
-    if not userId:
-        return jsonify({"error": "No userId provided"}), 400
+    userName = request.args.get('username')
+    if not userName:
+        return jsonify({"error": "No username provided"}), 400
     
     try:
         # Get all the ProductIds and their names in UserId's bag
         cursor = sql_cursor()
         query = """
-            SELECT BI.ProductId, P.ProductName 
-            FROM BagItems BI NATURAL JOIN Products P
-            WHERE BI.UserId = %s;
+            SELECT ProductId, ProductName 
+            FROM Users NATURAL JOIN BagItems NATURAL JOIN Products
+            WHERE UserName = %s;
         """
-        cursor.execute(query, (userId,))
+        cursor.execute(query, (userName,))
         results = cursor.fetchall()
         
         if not results:
