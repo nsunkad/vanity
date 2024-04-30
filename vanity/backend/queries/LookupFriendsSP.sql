@@ -12,10 +12,17 @@ begin
     declare user_products int default 0;
     declare simi int default 0;
     declare ord int default 0;
+    declare search_count int default 0;
     declare stdcur cursor for SELECT UserName FROM Users
                     ORDER BY LEAST(LEVENSHTEIN(UserName, search_string), LEVENSHTEIN(FirstName, search_string), LEVENSHTEIN(LastName, search_string))
                     LIMIT 15;
     declare continue handler for not found set done = 1;
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        RESIGNAL;
+    END;
+
     drop table if exists NewTable;
     
     create table NewTable (
@@ -24,6 +31,9 @@ begin
         NumProductsInBag int,
         Similarity int
     );
+
+    SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+    START TRANSACTION;
 
     select count(ProductId) into user_products
     from Users join BagItems on Users.UserId = BagItems.UserId
@@ -61,11 +71,17 @@ begin
         set ord = ord + 1;
         
         insert ignore into NewTable values (ord, currstd, num_prod, simi);
+
+        select SearchCount into search_count from Users where UserName = currstd;
+
+        update Users set SearchCount = search_count + 1 where UserName = currstd;
         
     until done
     end repeat std_loop;
     
     close stdcur;
+    
+    COMMIT;
     
     select UserName, NumProductsInBag, Similarity from NewTable order by Ord;
 
