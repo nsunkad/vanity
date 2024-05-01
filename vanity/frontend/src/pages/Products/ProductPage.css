@@ -1,46 +1,83 @@
 .product-page {
-    max-width: 800px;
+    background-color: #FFC0CB;
+    height: 500vh;
+    width: 100%;
     margin: auto;
-    background-color: #f8c8dc;
     padding: 20px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    font-family: 'TypeWriter';
 }
 
-.product-name {
+.product-outer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: top;
+    margin-bottom: 40px;
+    margin-right: 40px;
+}
+
+.product-page h1 {
     font-size: 28px;
-    color: #333;
-    font-weight: bold;
+    color: white;
     margin-bottom: 10px;
 }
 
 .brand-name {
-    color: #666;
-    font-size: 18px;
-    margin-bottom: 5px;
+    color: white;
+    font-size: 16px;
+    margin-top: 14px;
+    background-color: #b7717c;
+    width: 18vh;
+    padding: 10px;
+    text-align: left;
+}
+
+.product-attributes-smaller {
+    color: #b7717c;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 22px;
+    margin-top: 14px;
+}
+
+.product-attributes-smaller .price .fa,
+.product-attributes-smaller .likes .fa,
+.product-attributes-smaller .rating .fa {
+    font-size: 24px; /* Adjust the icon size as needed */
+    margin: 5px; /* Optional: Add some spacing between the icon and text */
+}
+
+.add-to-bag-outer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #b7717c;
+    border: none;
+    height: 14vh;
+    width: 15vh;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.add-to-bag-inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    border: none;
+    height: 9vh;
+    width: 13vh;
+    font-size: 13px;
+    padding:10px;
+    padding-bottom: 20px;
+    cursor: pointer;
+    font-family: Typewriter;
 }
 
 .popular-product {
-    font-size: 16px;
-    color: #c04;
-    margin-bottom: 10px;
-}
-
-.price, .likes, .rating {
-    font-size: 16px;
-    margin-right: 10px;
-    display: inline-block;
-    margin-top: 5px;
-}
-
-.add-to-bag-button {
-    background-color: #ff729f;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    display: inline-block;
-    margin-top: 10px;
+    color: #b7717c;
 }
 
 .users-also-bagged, .reviews {
@@ -54,23 +91,21 @@
     color: #333;
 }
 
-/* Add styles for icons */
-.icon {
-    width: 20px;
-    height: 20px;
-    display: inline-block;
-    background-size: contain;
-    background-repeat: no-repeat;
-    margin-right: 5px;
+.product-table {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+    width: 80vh;
 }
 
-/* Responsive adjustments */
-@media (max-width: 600px) {
-    .product-page {
-        padding: 10px;
-    }
+.product-table h2 {
+    text-align: center;
+    color: white;
+}
 
-    .add-to-bag-button {
-        width: 100%;
-    }
+.product-table table {
+    border: 2px solid #b7717c;
+    font-size: 18px;
+    width: 80vh;
 }
