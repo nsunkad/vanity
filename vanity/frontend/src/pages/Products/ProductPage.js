@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faStar, faTag, faPlus } from '@fortawesome/free-solid-svg-icons';
 import HamburgerMenu from '../../components/general/HamburgerMenu.js';
@@ -9,6 +9,7 @@ import './ProductPage.css';
 function ProductPage() {
     const { user } = useUser();
     const location = useLocation();
+    const navigate = useNavigate();
     const queryParams = new URLSearchParams(location.search);
     const productId = queryParams.get('productId');
     const productName = queryParams.get('product');
@@ -68,6 +69,10 @@ function ProductPage() {
         });
     };
 
+    const navigateToReviews = () => {
+        navigate(`/productreviews?productId=${productId}`);
+    };
+
     return (
         <div className="product-page">
             <HamburgerMenu />
@@ -85,17 +90,7 @@ function ProductPage() {
                         </span>
                     </div>
                     {productInfo.isPopular && <p className="popular-product">This is a popular product!</p>}
-                    {productInfo.reviews && productInfo.reviews.length > 0 &&
-                        <div>
-                            <h2>Reviews</h2>
-                            {productInfo.reviews.map((review, index) => (
-                                <div key={index}>
-                                    <h3>{review.Title || "Review"}</h3>
-                                    <p>{review.Text}</p>
-                                </div>
-                            ))}
-                        </div>
-                    }
+                    <button onClick={navigateToReviews}>Read Reviews</button>
                 </div>
                 <div className="product-right">
                     <div className="add-to-bag-outer" onClick={handleAddToBag}>

@@ -12,6 +12,7 @@ import ProductSearchPage from './pages/Products/ProductSearchPage';
 import ProductResults from './pages/Products/ProductResults';
 import ProductPage from './pages/Products/ProductPage'; // Make sure to import the new ProductPage
 import UpdateProfilePage from './pages/UpdateProfile/UpdateProfile';
+import ProductReviews from './pages/ProductReviews/ProductReviews';
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
           <Route path="/productresults" element={<ProductResults />} />
           <Route path="/productpage" element={<ProductPage />} /> {/* New route for ProductPage */}
           <Route path="/updateprofile" element={<UpdateProfilePage />} />
+          <Route path="/productreviews" element={<ProductReviews />} />
         </Routes>
       </Router>
     </UserProvider>
