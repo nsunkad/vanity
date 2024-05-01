@@ -163,8 +163,8 @@ def delete():
         cursor.execute(delete_query, (userId,))
         db.commit()
         return jsonify({"success": f"Successfully deleted account"}), 200
-    except:
-        return jsonify({"error": f"Failed to delete account"}), 404
+    except Exception as e:
+        return jsonify({"error": f"Failed to delete account: {str(e)}"}), 404
 
 """
 Update user info endpoint
