@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faStar, faTag, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faStar, faTag, faPlus, faEye } from '@fortawesome/free-solid-svg-icons';
 import HamburgerMenu from '../../components/general/HamburgerMenu.js';
 import { useUser } from '../../context/UserContext.js';
 import './ProductPage.css';
@@ -90,7 +90,7 @@ function ProductPage() {
                     <FontAwesomeIcon key={index} icon={faStar} />
                   ))} {productInfo.avgRating}
                 </span>
-                <div>View Count: {productInfo.viewCount}</div>
+                <span className="views"><FontAwesomeIcon icon={faEye} /> {productInfo.viewCount}</span>
               </div>
               {productInfo.isPopular && <p className="popular-product">This is a popular product!</p>}
               <button onClick={navigateToReviews}>Read Reviews</button>
