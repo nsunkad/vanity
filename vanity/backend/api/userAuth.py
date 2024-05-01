@@ -36,15 +36,14 @@ def login():
 
     if not results:
         return jsonify({"error": f"Username does not exist"}), 404
-    userId, userName, result_password, firstName, lastName, email, searchCount = results[0]
+    userId, userName, result_password, firstName, lastName, email = results[0]
     if bcrypt.checkpw(password.encode('utf-8'), result_password.encode('utf-8')):
         user_info = {
             "userId": userId,
             "userName": userName,
             "firstName": firstName,
             "lastName": lastName,
-            "email": email,
-            "searchCount": searchCount
+            "email": email
         }
         return jsonify(user_info), 200
     else:
@@ -130,7 +129,7 @@ def register():
         cursor.execute(verification_query, (userId,))
         results = cursor.fetchall()
         if results:
-            ret = [{"userId": row[0], "userName": row[1], "firstName": row[3], "lastName": row[4], "email": row[5], "searchCount": row[6]} for row in results]
+            ret = [{"userId": row[0], "userName": row[1], "firstName": row[3], "lastName": row[4], "email": row[5]} for row in results]
             return jsonify(ret[0]), 200
         else:
             return jsonify({"error": "User not found after insert"}), 404
@@ -224,7 +223,7 @@ def update():
         cursor.execute(verification_query, (userId,))
         results = cursor.fetchall()
         if results:
-            ret = [{"userId": row[0], "userName": row[1], "firstName": row[3], "lastName": row[4], "email": row[5], "searchCount": row[6]} for row in results]
+            ret = [{"userId": row[0], "userName": row[1], "firstName": row[3], "lastName": row[4], "email": row[5]} for row in results]
             return jsonify(ret[0]), 200
         else:
             return jsonify({"error": "User not found after update"}), 404
