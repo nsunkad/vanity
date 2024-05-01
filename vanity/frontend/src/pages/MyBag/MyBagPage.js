@@ -95,7 +95,7 @@ const MyBagPage = () => {
       <HamburgerMenu />
       <div className="mybag-header">
         <h1 className="mybag-name">{user.firstName}'s bag</h1>
-        <div className="mybag-addIcon" onClick={() => setShowAddItemForm(prev => !prev)}>
+        <div className="mybag-addIcon" onClick={() => navigate('/productsearch')}>
           <FontAwesomeIcon icon={faPlus} />
       </div>
       </div>
