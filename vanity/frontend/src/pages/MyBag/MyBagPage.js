@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useUser } from '../../context/UserContext.js';
-import { useParams, useNavigate } from 'react-router-dom'; // Needed to retrieve URL parameters
+import { useParams, useNavigate } from 'react-router-dom';
 import './MyBagPage.css';
 import HamburgerMenu from '../../components/general/HamburgerMenu.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -19,7 +19,7 @@ const MyBagPage = () => {
     if (user && user.userId) {
       console.log('User ID:', user.userId);
       console.log('User name:', user.firstName);
-      fetchBagItems(); // Call the function to fetch bag items when the component mounts
+      fetchBagItems();
     }
   }, [user]);
 
@@ -48,7 +48,6 @@ const MyBagPage = () => {
   };
 
   const handleAddItem = (event) => {
-    //event.preventDefault();  // Prevent the form from causing a page reload
     fetch('http://localhost:8000/create-bag-item', {
       method: 'POST',
       headers: {
@@ -62,9 +61,9 @@ const MyBagPage = () => {
         console.error('Error:', data.error);
       } else {
         console.log('Bag Items:', data.success);
-        setBagItems(prevItems => [...prevItems, data]);  // Assuming the API returns the added item
-        setShowAddItemForm(false);  // Close the form after submission
-        setProductId('');  // Reset the input field
+        setBagItems(prevItems => [...prevItems, data]);
+        setShowAddItemForm(false);
+        setProductId('');
       }
     })
     .catch(error => {
@@ -80,7 +79,7 @@ const MyBagPage = () => {
     .then(data => {
       if (data.success) {
         alert('Item deleted successfully');
-        fetchBagItems(user.firstName); // Refresh items after delete
+        fetchBagItems(user.firstName);
       } else {
         alert('Error deleting item: ' + data.error);
       }
@@ -112,7 +111,6 @@ const MyBagPage = () => {
         </form>
       )}
       <div className="mybag-bag">
-        {/* Map over bagItems to display each product's name */}
         {bagItems.map((item, index) => (
           <div key={item.productId} className="mybag-slot">
             {item.productName}

@@ -29,7 +29,6 @@ const UpdateProfilePage = () => {
       email,
     };
 
-    // API call to update the user
     fetch('http://localhost:8000/update-account', {
       method: 'PUT',
       headers: {
@@ -43,8 +42,8 @@ const UpdateProfilePage = () => {
         console.error('Update error:', data.error);
       } else {
         console.log('success');
-        updateUser(data); // Update user context with new data
-        setSuccessMessage('profile updated successfully'); // Set success message
+        updateUser(data);
+        setSuccessMessage('profile updated successfully');
       }
     })
     .catch((error) => {
@@ -90,7 +89,7 @@ const UpdateProfilePage = () => {
         <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Update email" />
         <button type="submit" className="vanity-button" id="save">Save</button>
       </form>
-      {successMessage && <p className="success-message">{successMessage}</p>} {/* Render success message if it exists */}
+      {successMessage && <p className="success-message">{successMessage}</p>}
       <button className="vanity-button" onClick={handleDelete} style={{marginTop: '20px'}}>DELETE ACCOUNT</button>
     </div>
   );

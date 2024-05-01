@@ -6,11 +6,11 @@
 }
 
 body, html {
-    background-color: #FFC0CB; /* Pale pink background */
+    background-color: #FFC0CB;
 }
 
 .reviews-container {
-    background-color: #FFC0CB; /* Pale pink background */
+    background-color: #FFC0CB;
     width: 80%;
     min-height: 100vh;
     display: flex;

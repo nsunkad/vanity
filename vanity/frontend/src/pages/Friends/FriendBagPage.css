@@ -16,9 +16,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start; /* Start aligning content from the top */
-    font-family: 'TypeWriter', sans-serif; /* Ensure the font family is properly named */
-    padding-top: 60px; /* Adjust padding to account for the fixed header height */
+    justify-content: flex-start;
+    font-family: 'TypeWriter', sans-serif;
+    padding-top: 60px;
   }
   
   .friendbag-header {
@@ -32,7 +32,7 @@
     padding: 1em;
     background-color: #FFC0CB;
     height: 60px;
-    z-index: 100; /* Higher z-index to ensure it's above the .mybag-bag */
+    z-index: 100;
   }
   
   .mybag-addIcon:hover {
@@ -41,12 +41,12 @@
   
   .friendbag-name {
     position: absolute;
-    top: 50%; /* Center vertically within the header */
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 2.5em;
     color: white;
-    z-index: 101; /* Ensure it's above the .mybag-header background */
+    z-index: 101;
     text-align: center;
   }
   
@@ -57,7 +57,7 @@
     padding: 1em;
     max-width: 800px;
     width: 100%;
-    padding-top: 60px; /* Add top padding to push it below the header */
+    padding-top: 60px;
   }
   
   .friendbag-slot {
@@ -73,30 +73,8 @@
     text-align: center;
   }
 
-  /* .slot-buttons {
-    display: none;
-    position: absolute;
-    width: 100%;
-    top: 0;
-    left: 0;
-    padding: 5px;
-  }
-  
-  .friendbag-slot:hover .slot-buttons {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .slot-button {
-    cursor: pointer;
-    color: #fff;
-    background-color: #333;
-    border-radius: 50%;
-    padding: 5px;
-  } */
-
   .friendbag-slot:hover {
-    background-color: #f0f0f0; /* Optional: change background on hover */
+    background-color: #f0f0f0;
   }
   
   .slot-buttons {
@@ -108,18 +86,18 @@
     justify-content: space-between;
     width: 100%;
     padding: 5px;
-    visibility: hidden; /* Hide buttons until slot is hovered */
+    visibility: hidden;
   }
   
   .friendbag-slot:hover .slot-buttons {
-    visibility: visible; /* Show buttons on hover */
+    visibility: visible;
   }
   
   .slot-button {
     color: white;
     background-color: #333;
-    border-radius: 50%; /* Makes the button circular */
+    border-radius: 50%;
     padding: 5px;
-    font-size: 16px; /* Adjust size as needed */
-    cursor: pointer; /* Indicates the button is clickable */
+    font-size: 16px;
+    cursor: pointer;
   }

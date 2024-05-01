@@ -69,6 +69,7 @@ export function LogInLink() {
   );
 }
 
+//Button to trigger product and friend searches
 export function Search({onClick}){
   return (
     <button onClick={onClick} type="button" className="search-button" >

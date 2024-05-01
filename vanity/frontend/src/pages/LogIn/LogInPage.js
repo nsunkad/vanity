@@ -9,7 +9,7 @@ function LogInPage() {
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const { user, login } = useUser(); // Using context to manage user data
+    const { user, login } = useUser();
     const [loginSuccessful, setLoginSuccessful] = useState(false);
 
     const handleInputChange = (event) => {
@@ -31,12 +31,12 @@ function LogInPage() {
             body: JSON.stringify({ username: userName, password: password })
         })
         .then(response => {
-          console.log('Response:', response); // logging response
+          console.log('Response:', response);
           return response.json();})
         .then(data => {
-            console.log('Data:', data); // logging data
-            if (data.userId) {  // Assuming `userId` presence indicates success
-                login(data);   // Update user context with received user info
+            console.log('Data:', data);
+            if (data.userId) {  
+                login(data);   
                 setLoginSuccessful(true);
             } else {
                 setErrorMessage(data.error || 'Unknown error');

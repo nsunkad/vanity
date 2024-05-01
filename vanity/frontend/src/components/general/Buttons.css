@@ -33,9 +33,9 @@
   border: none;
   transition: background-color 0.3s ease;
   margin-top: 12px;
-  display: flex;   /* Ensures content is centered within the button */
-  align-items: center; /* Center content vertically */
-  justify-content: center; /* Center content horizontally */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
   
 .bag-button:hover, .bag-button:active {

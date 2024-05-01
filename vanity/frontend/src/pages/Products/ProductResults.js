@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './ProductResults.css'; // Assuming CSS styles similar to FriendResults.css
+import './ProductResults.css';
 import { useLocation } from 'react-router-dom';
 import HamburgerMenu from '../../components/general/HamburgerMenu.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

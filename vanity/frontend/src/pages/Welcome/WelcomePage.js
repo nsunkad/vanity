@@ -1,5 +1,5 @@
 import React from 'react';
-import './WelcomePage.css'; // Assuming your CSS file is named WelcomePage.css
+import './WelcomePage.css';
 import {LogInButton, SignUpButton} from '../../components/general/Buttons.js';
 
 function WelcomePage() {

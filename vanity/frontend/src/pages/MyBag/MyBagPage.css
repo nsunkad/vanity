@@ -16,9 +16,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start; /* Start aligning content from the top */
-  font-family: 'TypeWriter', sans-serif; /* Ensure the font family is properly named */
-  padding-top: 60px; /* Adjust padding to account for the fixed header height */
+  justify-content: flex-start;
+  font-family: 'TypeWriter', sans-serif;
+  padding-top: 60px;
 }
 
 .mybag-header {
@@ -32,7 +32,7 @@
   padding: 1em;
   background-color: #FFC0CB;
   height: 60px;
-  z-index: 100; /* Higher z-index to ensure it's above the .mybag-bag */
+  z-index: 100;
 }
 
 .mybag-addIcon {
@@ -42,7 +42,7 @@
   position: fixed;
   top: 10px;
   left: 1370px;
-  z-index: 1001; /* Above the header */
+  z-index: 1001;
   transition: color 0.3s ease;
 }
 
@@ -52,12 +52,12 @@
 
 .mybag-name {
   position: absolute;
-  top: 50%; /* Center vertically within the header */
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 2.5em;
   color: white;
-  z-index: 101; /* Ensure it's above the .mybag-header background */
+  z-index: 101;
   text-align: center;
 }
 
@@ -68,7 +68,7 @@
   padding: 1em;
   max-width: 800px;
   width: 100%;
-  padding-top: 60px; /* Add top padding to push it below the header */
+  padding-top: 60px;
 }
 
 .mybag-slot {
@@ -88,24 +88,24 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 40px; /* Adjust the top margin to create space from the header */
+  margin-top: 40px;
 }
 
 .add-item-form input[type="text"] {
   font-size: 16px;
   padding: 10px;
   margin-top: 10px;
-  margin-bottom: 10px; /* Space between the input and the submit button */
+  margin-bottom: 10px;
   border: 1px solid #ccc;
-  border-radius: 5px; /* Slight rounding of corners for aesthetics */
-  width: 150px; /* Relative width to the parent container */
+  border-radius: 5px;
+  width: 150px;
   font-family: Typewriter;
   font-size: 16px;
 }
 
 .add-item-form button[type="submit"] {
   padding: 10px 20px;
-  background-color: #f09ea3; /* Light pink, adjust as necessary */
+  background-color: #f09ea3;
   color: white;
   border: none;
   border-radius: 5px;
@@ -114,14 +114,13 @@
   font-size: 16px;
 }
 
-/* Hover effect for the submit button */
 .add-item-form button[type="submit"]:hover {
   font-family: Typewriter;
-  background-color: #e08796; /* Slightly darker pink on hover */
+  background-color: #e08796;
 }
 
 .mybag-slot:hover {
-  background-color: #f0f0f0; /* Optional: change background on hover */
+  background-color: #f0f0f0;
   cursor:pointer;
 }
 
@@ -134,11 +133,11 @@
   justify-content: space-between;
   width: 100%;
   padding: 5px;
-  visibility: hidden; /* Hide buttons until slot is hovered */
+  visibility: hidden;
 }
 
 .mybag-slot:hover .slot-buttons {
-  visibility: visible; /* Show buttons on hover */
+  visibility: visible;
 }
 
 .slot-button {
@@ -147,7 +146,7 @@
   border-radius: 50%;
   padding: 5px;
   cursor: pointer;
-  width: 20px; /* Fixed width and height for consistency */
+  width: 20px;
   height: 20px;
   display: flex;
   align-items: center;
@@ -156,17 +155,17 @@
 }
 
 .delete-button {
-  position: absolute; /* Positions the button absolutely within its parent */
-  left: 0px; /* Distance from the left */
-  top: 0px; /* Distance from the top */
+  position: absolute;
+  left: 0px;
+  top: 0px;
   left: 10px;
   top:  10px;
 }
 
 .view-button {
-  position: absolute; /* Positions the button absolutely within its parent */
-  right: 0px; /* Distance from the right */
-  top: 0px; /* Distance from the top */
+  position: absolute;
+  right: 0px;
+  top: 0px;
   right: 20px;
   top: 10px;
 }

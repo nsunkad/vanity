@@ -1,30 +1,28 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-export const UserContext = createContext(null); // Provide a default value for the context
+export const UserContext = createContext(null);
 
 export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(() => {
-        // Retrieve the user info from localStorage if it exists
         const savedUser = localStorage.getItem('user');
         return savedUser ? JSON.parse(savedUser) : null;
     });
 
     const login = (userData) => {
-        localStorage.setItem('user', JSON.stringify(userData)); // Save to localStorage on login
+        localStorage.setItem('user', JSON.stringify(userData));
         setUser(userData);
     };
 
     const logout = () => {
-        localStorage.removeItem('user'); // Clear localStorage on logout
+        localStorage.removeItem('user');
         setUser(null);
     };
 
     const updateUser = (newUserData) => {
-        localStorage.setItem('user', JSON.stringify(newUserData)); // Update user data in localStorage
-        setUser(newUserData); // Update user data in state
+        localStorage.setItem('user', JSON.stringify(newUserData));
+        setUser(newUserData);
     };
 
-    // Handle browser refresh by checking if the user data is in localStorage
     useEffect(() => {
         const savedUser = localStorage.getItem('user');
         if (savedUser) {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; // Needed to retrieve URL parameters
+import { useParams, useNavigate } from 'react-router-dom';
 import './FriendBagPage.css';
 import HamburgerMenu from '../../components/general/HamburgerMenu.js';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 const FriendBagPage = () => {
-  const { UserName } = useParams(); // Retrieve username from URL
+  const { UserName } = useParams();
   const navigate = useNavigate();
   const [bagItems, setBagItems] = useState([]);
 

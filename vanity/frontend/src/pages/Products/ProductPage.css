@@ -51,8 +51,8 @@
 .product-attributes-smaller .likes .fa,
 .product-attributes-smaller .rating .fa,
 .product-attributes-smaller .views .fa {
-    font-size: 24px; /* Adjust the icon size as needed */
-    margin: 5px; /* Optional: Add some spacing between the icon and text */
+    font-size: 24px;
+    margin: 5px;
 }
 
 .add-to-bag-outer {

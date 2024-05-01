@@ -14,7 +14,6 @@ const HamburgerMenu = () => {
     useEffect(() => {
         console.log('User ID:', user.userId);
         console.log('User name:', user.firstName);
-        // Fetch bag items data when component mounts
       }, []);
 
     return (

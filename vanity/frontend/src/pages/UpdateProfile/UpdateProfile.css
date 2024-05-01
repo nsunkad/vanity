@@ -1,14 +1,14 @@
 @font-face {
-    font-family: 'TypeWriter'; /* Give your font a name to be used in your CSS */
-    src: local('TypeWriter'), /* This will attempt to use the local font if it matches the name */
-         url('../../assets/JMH-Typewriter-Thin.ttf') format('truetype'); /* Path to your font file */
+    font-family: 'TypeWriter';
+    src: local('TypeWriter'),
+         url('../../assets/JMH-Typewriter-Thin.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
   }
 
 .profile-container {
-  background-color: #FFC0CB; /* Pale pink background */
-  height: 100vh; /* Full height */
+  background-color: #FFC0CB;
+  height: 100vh;
   width: 100%;
   display: flex;
   flex-direction: column;

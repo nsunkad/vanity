@@ -2,11 +2,11 @@ import React from 'react';
 import './SignUpPage.css';
 import { SubmitButton } from '../../components/general/Buttons.js';
 import { LogInLink } from '../../components/general/Buttons.js';
-import { UserContext } from '../../context/UserContext.js'; // Ensure you have the correct import path
+import { UserContext } from '../../context/UserContext.js';
 import { MyBagButton } from '../../components/general/Buttons.js';
 
 class SignUpPage extends React.Component {
-  static contextType = UserContext; // Correctly access the UserContext
+  static contextType = UserContext;
 
   constructor(props) {
     super(props);
@@ -59,7 +59,7 @@ class SignUpPage extends React.Component {
         if (data.error) {
           this.setState({ errorMessage: data.error, submissionSuccess: false });
         } else {
-          this.context.login(data); // Update user context with received user info
+          this.context.login(data);
           this.setState({
             submissionSuccess: true,
             errorMessage: ''
@@ -74,7 +74,6 @@ class SignUpPage extends React.Component {
 
   render() {
     const { userName, firstName, lastName, email, password, submissionSuccess, errorMessage } = this.state;
-    // Only construct the welcome message if submission is successful
     const welcomeMessage = submissionSuccess && this.context.user ? `welcome to vanity, ${this.context.user.firstName}!` : "";
 
     return (
@@ -131,7 +130,7 @@ class SignUpPage extends React.Component {
           {submissionSuccess &&
             <>
               <p className="signup-success">{ welcomeMessage }</p>
-              <MyBagButton /> {/* This will render the MyBagButton on successful signup */}
+              <MyBagButton />
             </>
           }
           {errorMessage && <p className="error-message">

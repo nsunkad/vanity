@@ -6,7 +6,7 @@
 }
 
 .results-container {
-    background-color: #FFC0CB; /* Pale pink background */
+    background-color: #FFC0CB;
     width: 100%;
     min-height: 100vh;
     display: flex;
@@ -40,7 +40,7 @@ th, td {
     text-align: center;
     padding: 8px;
     color: white;
-    height: calc(100vh / 17); /* Adjust the height to fit all rows in the viewport */
+    height: calc(100vh / 17);
 }
 
 th {
@@ -48,11 +48,11 @@ th {
 }
 
 tr {
-    background-color: #FFC0CB; /* Uniform pale pink background for all rows */
+    background-color: #FFC0CB;
 }
 
 tr:hover {
-    background-color: #F3C2C9; /* Lighter pink for hover effect, if desired */
+    background-color: #F3C2C9;
 }
 
 td:last-child {
