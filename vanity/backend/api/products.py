@@ -50,10 +50,11 @@ def get_product_info():
         likeCount = results[4]
         brandName = results[5]
         isPopular = False
-        avgRating = float(results[6])
+        avgRating = results[6]
         totalNumReviews = results[7]
         reviewStringToDisplay = f"{avgRating}/5 avg rating (from {totalNumReviews} reviews)"
         usersAlsoBagged = {}
+        similarProductRecs = similar_product_recommendations(productId)
         
         
         popular_products_adv_query = """
@@ -88,7 +89,7 @@ def get_product_info():
         for row in results:
             otherPid = row[0]
             otherProductName = row[1]
-            otherAvgRating = float(row[2])
+            otherAvgRating = row[2]
             otherNumReviews = row[3]
             usersAlsoBagged[otherPid] = {"productName": otherProductName, "avgRating": otherAvgRating, "numReviews": otherNumReviews}
 
@@ -104,63 +105,127 @@ def get_product_info():
                         "avgRating": avgRating, 
                         "totalNumReviews": totalNumReviews,
                         "usersAlsoBagged": usersAlsoBagged,
-                        "reviewStringToDisplay": reviewStringToDisplay}), 200
+                        "reviewStringToDisplay": reviewStringToDisplay,
+                        "similarProductRecommendations": similarProductRecs}), 200
     except Exception as e:
         return jsonify({"error": f"Error getting product info: {str(e)}"}), 500
 
 """
 Returned JSON Example 1
 {
-    "avgRating": 3.9,
-    "brandName": "Tatcha",
-    "isPopular": true,
-    "likeCount": 142010,
-    "price": 50,
-    "productId": "P392235",
-    "productName": "The Camellia Oil 2-in-1 Makeup Remover & Cleanser",
-    "productURL": "sephora.com/P392235",
-    "reviewStringToDisplay": "3.9/5 avg rating (from 10 reviews)",
-    "size": "5 oz/ 150 mL",
+    "avgRating": "4.4000",
+    "brandName": "Dr. Jart+",
+    "isPopular": false,
+    "likeCount": 37108,
+    "price": 42,
+    "productId": "P467615",
+    "productName": "Cicapair Tiger Grass Sleepair Intensive Mask",
+    "productURL": "sephora.com/P467615",
+    "reviewStringToDisplay": "4.4000/5 avg rating (from 10 reviews)",
+    "similarProductRecommendations": {
+        "P411539": {
+            "brandName": "Dr. Jart+",
+            "productName": "Cicapair Tiger Grass Cream"
+        },
+        "P411540": {
+            "brandName": "Dr. Jart+",
+            "productName": "Cicapair Tiger Grass Color Correcting Treatment SPF 30"
+        },
+        "P423259": {
+            "brandName": "Dr. Jart+",
+            "productName": "Cicapair Tiger Grass Serum"
+        },
+        "P429250": {
+            "brandName": "Dr. Jart+",
+            "productName": "Cicapair  Tiger Grass Camo Drops Color Corrector SPF 35"
+        },
+        "P448184": {
+            "brandName": "Dr. Jart+",
+            "productName": "Cicapair Tiger Grass Calming Mist"
+        },
+        "P448185": {
+            "brandName": "Dr. Jart+",
+            "productName": "Cicapair Tiger Grass Calming Gel Cream"
+        },
+        "P467615": {
+            "brandName": "Dr. Jart+",
+            "productName": "Cicapair Tiger Grass Sleepair Intensive Mask"
+        },
+        "P471546": {
+            "brandName": "Dr. Jart+",
+            "productName": "Mini Cicapair Tiger Grass Color Correcting Treatment SPF 30"
+        },
+        "P481699": {
+            "brandName": "Dr. Jart+",
+            "productName": "Cicapair Tiger Grass Calming Serum Mask"
+        },
+        "P501421": {
+            "brandName": "EADEM",
+            "productName": "Dew Dream- Hydrating Makeup Removing Cleansing Balm with Tiger Grass"
+        }
+    },
+    "size": "3.38 oz/ 100 mL",
     "totalNumReviews": 10,
     "usersAlsoBagged": {
-        "P438643": {
-            "avgRating": 5.0,
+        "P392235": {
+            "avgRating": "5.0000",
+            "numReviews": 9,
+            "productName": "The Camellia Oil 2-in-1 Makeup Remover & Cleanser"
+        },
+        "P429659": {
+            "avgRating": "5.0000",
             "numReviews": 1,
-            "productName": "The Balance pH Balancing Gel Cleanser"
+            "productName": "Squalane + Hyaluronic Toning Mist"
         },
         "P441644": {
-            "avgRating": 2.0,
-            "numReviews": 16,
+            "avgRating": "2.0000",
+            "numReviews": 10,
             "productName": "Mini Superfood Antioxidant Cleanser"
         },
-        "P465741": {
-            "avgRating": 5.0,
-            "numReviews": 1,
-            "productName": "Wild Huckleberry 8-Acid Polishing Peel Mask"
-        },
         "P480278": {
-            "avgRating": 4.0,
+            "avgRating": "4.0000",
             "numReviews": 1,
             "productName": "Rapid Radiance Set"
         },
         "P481084": {
-            "avgRating": 5.0,
-            "numReviews": 16,
+            "avgRating": "5.0000",
+            "numReviews": 10,
             "productName": "Mini Revitalizing Supreme+ Youth Power Creme Moisturizer"
         },
         "P481817": {
-            "avgRating": 4.0,
+            "avgRating": "4.0000",
             "numReviews": 1,
             "productName": "Beauty Elixir Prep, Set, Glow Face Mist"
         },
         "P505020": {
-            "avgRating": 5.0,
+            "avgRating": "5.0000",
             "numReviews": 1,
             "productName": "The POREfessional Good Cleanup Foaming Cleanser"
         }
     }
 }
 """
+
+def similar_product_recommendations(productId):
+    cursor = sql_cursor()
+    cluster_id_query = "SELECT ClusterId FROM ProductClusters WHERE ProductId = %s"
+    cursor.execute(cluster_id_query, (productId,))
+    results = cursor.fetchone()
+    
+    cluster = results[0]
+    print(cluster)
+    similar_products_query = "SELECT ProductId, ProductName, BrandName FROM ProductClusters NATURAL JOIN Products NATURAL JOIN Brands WHERE ClusterId = %s LIMIT 10"
+    cursor.execute(similar_products_query, (cluster,))
+    results = cursor.fetchall()
+    
+    res = {}
+    for row in results:
+        otherProductId = row[0]
+        otherProductName = row[1]
+        otherProductBrand = row[2]
+        res[otherProductId] = {"productName": otherProductName, "brandName": otherProductBrand}
+    return res
+
 
 @products_bp.route('/lookup-products', methods=['GET'])
 def lookup_products():
