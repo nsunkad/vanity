@@ -25,7 +25,7 @@ function FriendResults() {
     return (
       <div className="results-container">
         <HamburgerMenu />
-        <h1>search results</h1>
+        <h1>friend search results</h1>
         <p>click on a friend’s bag to view their bag items!</p>
         <table>
           <thead>

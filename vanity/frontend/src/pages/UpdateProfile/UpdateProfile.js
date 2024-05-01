@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
 import './UpdateProfile.css';
+import HamburgerMenu from '../../components/general/HamburgerMenu.js';
 
 const UpdateProfilePage = () => {
   const { user, updateUser } = useContext(UserContext);
@@ -52,6 +53,7 @@ const UpdateProfilePage = () => {
 
   return (
     <div className="profile-container">
+      <HamburgerMenu />
       <h1>profile</h1>
       <form onSubmit={handleUpdate}>
         <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Update username" />

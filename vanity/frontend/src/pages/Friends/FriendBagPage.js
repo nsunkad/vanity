@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom'; // Needed to retrieve URL parameters
+import { useParams, useNavigate } from 'react-router-dom'; // Needed to retrieve URL parameters
 import './FriendBagPage.css';
 import HamburgerMenu from '../../components/general/HamburgerMenu.js';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 
 const FriendBagPage = () => {
   const { UserName } = useParams(); // Retrieve username from URL
+  const navigate = useNavigate();
   const [bagItems, setBagItems] = useState([]);
 
   useEffect(() => {
@@ -12,7 +16,7 @@ const FriendBagPage = () => {
   }, [UserName]);
 
   const fetchBagItems = (UserName) => {
-    fetch(`http://localhost:8000/bag-items?userid=${encodeURIComponent(UserName)}`, {
+    fetch(`http://localhost:8000/bag-items?username=${encodeURIComponent(UserName)}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -31,21 +35,24 @@ const FriendBagPage = () => {
     });
   };
 
-  return (
-    <div className="friendbag-container">
-      <HamburgerMenu />
-      <div className="friendbag-header">
-        <h1 className="friendbag-name">{UserName}'s Bag</h1>
-      </div>
-      <div className="friendbag-bag">
-        {bagItems.map((item, index) => (
-          <div key={index} className="friendbag-slot">
-            {item.productName}
-          </div>
-        ))}
-      </div>
+return (
+  <div className="friendbag-container">
+    <HamburgerMenu />
+    <div className="friendbag-header">
+      <h1 className="friendbag-name">{UserName}'s Bag</h1>
     </div>
-  );
+    <div className="friendbag-bag">
+      {bagItems.map((item, index) => (
+        <div key={index} className="friendbag-slot">
+          {item.productName}
+          <div className="slot-buttons">
+            <FontAwesomeIcon icon={faSearch} className="slot-button view-button" onClick={() => navigate(`/productpage?product=${encodeURIComponent(item.productName)}&productId=${item.productId}`)} />
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
 };
 
 export default FriendBagPage;
