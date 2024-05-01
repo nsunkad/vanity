@@ -126,7 +126,7 @@ function ProductPage() {
                   <tbody>
                     {productInfo.similarProductRecs.slice(0, 5).map((rec, index) => (
                       <tr key={index}>
-                        <td>{rec.productName} (Product ID: {rec.productId})</td>
+                        <td>{rec.productName}</td>
                       </tr>
                     ))}
                   </tbody>
