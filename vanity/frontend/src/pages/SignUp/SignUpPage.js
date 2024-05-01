@@ -35,6 +35,10 @@ class SignUpPage extends React.Component {
     event.preventDefault();
 
     const { userName, firstName, lastName, email, password } = this.state;
+    if (!userName || !firstName || !lastName || !email || !password) {
+      this.setState({ errorMessage: 'please fill all fields.', submissionSuccess: false });
+      return;
+    }
     const data = {
         username: userName,
         firstname: firstName,

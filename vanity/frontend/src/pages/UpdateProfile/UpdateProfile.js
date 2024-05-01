@@ -2,8 +2,10 @@ import React, { useState, useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
 import './UpdateProfile.css';
 import HamburgerMenu from '../../components/general/HamburgerMenu.js';
+import { useNavigate } from 'react-router-dom';
 
 const UpdateProfilePage = () => {
+  const navigate = useNavigate();
   const { user, updateUser } = useContext(UserContext);
 
   if (!user || !user.userId) {
@@ -67,7 +69,8 @@ const UpdateProfilePage = () => {
         alert('Failed to delete account: ' + data.error);
       } else {
         alert('Account deleted successfully');
-        updateUser(null); // Clear user context
+        updateUser(null);
+        navigate('/');
       }
     })
     .catch((error) => {
