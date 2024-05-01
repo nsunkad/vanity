@@ -45,7 +45,7 @@ function ProductReviews() {
                 ) : reviews.length > 0 ? (
                     reviews.map((review, index) => (
                         <div key={index} className="review">
-                            <h3>{review.Title}</h3>
+                            <h3>{review.Title ? review.Title : "untitled review"}</h3>
                             <p>{review.Text}</p>
                             <div>Rating: {review.Rating} stars</div>
                             <div>Date: {new Date(review.Date).toLocaleDateString()}</div>

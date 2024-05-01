@@ -114,13 +114,12 @@ def get_product_info():
                         "brandName": brandName, 
                         "isPopular": isPopular,
                         "avgRating": avgRating, 
-                        "viewCount": view_count + 1,
+                        "viewCount": view_count,
                         "totalNumReviews": totalNumReviews,
                         "usersAlsoBagged": usersAlsoBagged,
                         "reviewStringToDisplay": reviewStringToDisplay,
                         "similarProductRecommendations": similarProductRecs}), 200
     except Exception as e:
-        print(e)
         return jsonify({"error": f"Error getting product info: {str(e)}"}), 500
 
 """
@@ -226,7 +225,6 @@ def similar_product_recommendations(productId):
     results = cursor.fetchone()
     
     cluster = results[0]
-    print(cluster)
     similar_products_query = "SELECT ProductId, ProductName, BrandName FROM ProductClusters NATURAL JOIN Products NATURAL JOIN Brands WHERE ClusterId = %s LIMIT 10"
     cursor.execute(similar_products_query, (cluster,))
     results = cursor.fetchall()
