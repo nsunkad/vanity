@@ -27,10 +27,12 @@ function ProductSearchPage() {
             })
             .then(response => response.json())
             .then(data => {
-                if (!data.error) {
-                    navigate('/productresults', { state: { results: data } });
-                } else {
+                if (data.error) {
                     setErrorMessage(data.error);
+                } else if (data.length === 0) {
+                    setErrorMessage("No results found. Double check your spelling and try again :)");
+                } else {
+                    navigate('/productresults', { state: { results: data } });
                 }
             })
             .catch(error => {
@@ -49,7 +51,7 @@ function ProductSearchPage() {
                     type="text"
                     value={searchInput}
                     onChange={handleInputChange}
-                    placeholder="search by username"
+                    placeholder="search by product name"
                     className="search-input"
                 />
                 <Search onClick={fetchSuggestions} />
