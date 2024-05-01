@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useUser } from '../../context/UserContext.js';
+import { useParams, useNavigate } from 'react-router-dom'; // Needed to retrieve URL parameters
 import './MyBagPage.css';
 import HamburgerMenu from '../../components/general/HamburgerMenu.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const MyBagPage = () => {
   const { user } = useUser();
   const [bagItems, setBagItems] = useState([]);
   const [showAddItemForm, setShowAddItemForm] = useState(false);
   const [productId, setProductId] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (user && user.userId) {
@@ -68,6 +72,24 @@ const MyBagPage = () => {
     });
   };
 
+  const deleteItem = (userId, productId) => {
+    fetch(`http://localhost:8000/delete-bag-item?userId=${encodeURIComponent(user.userId)}&productId=${encodeURIComponent(productId)}`, {
+      method: 'DELETE'
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        alert('Item deleted successfully');
+        fetchBagItems(user.firstName); // Refresh items after delete
+      } else {
+        alert('Error deleting item: ' + data.error);
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  };
+
   return (
     <div className="mybag-container">
       <HamburgerMenu />
@@ -94,6 +116,10 @@ const MyBagPage = () => {
         {bagItems.map((item, index) => (
           <div key={item.productId} className="mybag-slot">
             {item.productName}
+            <div className="slot-buttons">
+            <FontAwesomeIcon icon={faTimes} className="slot-button delete-button" onClick={() => deleteItem(user.firstName, item.productId)} />
+            <FontAwesomeIcon icon={faSearch} className="slot-button view-button" onClick={() => navigate(`/productpage?product=${encodeURIComponent(item.productName)}&productId=${item.productId}`)} />
+          </div>
           </div>
         ))}
       </div>
