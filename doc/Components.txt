@@ -1,0 +1,266 @@
+** Stored Procedure:
+
+DELIMITER //
+
+create procedure LookupFriendsSP(IN curr_username VARCHAR(64), IN search_string varchar(255))
+
+begin
+    declare done int default 0;
+    declare currstd varchar(64);
+    declare num_prod int default 0;
+    declare same_products int default 0;
+    declare user_products int default 0;
+    declare simi int default 0;
+    declare ord int default 0;
+    declare stdcur cursor for SELECT UserName FROM Users
+                    ORDER BY LEAST(LEVENSHTEIN(UserName, search_string), LEVENSHTEIN(FirstName, search_string), LEVENSHTEIN(LastName, search_string))
+                    LIMIT 15;
+    declare continue handler for not found set done = 1;
+
+    drop table if exists NewTable;
+    
+    create table NewTable (
+        Ord int primary key,
+        UserName varchar(64),
+        NumProductsInBag int,
+        Similarity int
+    );
+
+    select count(ProductId) into user_products
+    from Users left outer join BagItems on Users.UserId = BagItems.UserId
+    where UserName = curr_username
+    group by UserName;
+
+    open stdcur;
+    
+    std_loop:repeat
+        fetch stdcur into currstd;
+
+        select count(ProductId) into num_prod
+        from Users left outer JOIN BagItems ON Users.UserId = BagItems.UserId
+        where UserName = currstd
+        group by UserName;
+
+        select count(ProductId) into same_products
+        from (
+            select ProductId
+            from Users LEFT OUTER JOIN BagItems ON Users.UserId = BagItems.UserId
+            where UserName = currstd
+            intersect
+            select ProductId
+            from Users LEFT OUTER JOIN BagItems on Users.UserId = BagItems.UserId
+            where UserName = curr_username
+        ) as subquery;
+
+        if user_products = 0 then set simi = 1;
+        elseif same_products / user_products > 0.85 then set simi = 5;
+        elseif same_products / user_products > 0.65 then set simi = 4;
+        elseif same_products / user_products > 0.5 then set simi = 3;
+        elseif same_products / user_products > 0.35 then set simi = 2;
+        else set simi = 1;
+        end if;
+
+        set ord = ord + 1;
+        
+        insert ignore into NewTable values (ord, currstd, num_prod, simi);
+        
+    until done
+    end repeat std_loop;
+    
+    close stdcur;
+    
+    select UserName, NumProductsInBag, Similarity from NewTable order by Ord;
+    drop table NewTable;
+
+end //
+
+DELIMITER ;
+
+** Transaction:
+
+@products_bp.route('/product-info', methods=['GET'])
+def get_product_info():
+    productId = request.args.get('product_id')
+    if not productId:
+        return jsonify({"error": "No productId provided"}), 400
+   
+    try:
+        # Get all the stats for a ProductId
+        cursor = sql_cursor()
+
+        # default isolation level is READ COMMITTED
+        cursor.execute("""START TRANSACTION;""")
+        
+        query = """SELECT Pro.ProductId, Pro.ProductName, Pro.Size, Pro.Price, Pro.LikeCount, B.BrandName, Res.AvgRating, Res.TotalNumReviews
+                FROM Products Pro LEFT OUTER JOIN 
+                        Brands B ON B.BrandId = Pro.BrandId
+                        LEFT OUTER JOIN
+                        (
+                            SELECT ProductId, AVG(Rating) as AvgRating, COUNT(*) as TotalNumReviews
+                            FROM Reviews
+                            WHERE ProductId = %s
+                        ) AS Res
+                ON Res.ProductId = Pro.ProductId
+                WHERE Pro.ProductId = %s
+                """
+        cursor.execute(query, (productId, productId))
+        results = cursor.fetchone()
+        
+        productId = results[0]
+        productName = results[1]
+        productURL = f"sephora.com/{productId}"
+        size = results[2]
+        price = results[3]
+        likeCount = results[4]
+        brandName = results[5]
+        isPopular = False
+        avgRating = float(results[6]) if isinstance(results[6], Decimal) else results[6]
+        totalNumReviews = results[7]
+        reviewStringToDisplay = f"{avgRating}/5 avg rating (from {totalNumReviews} reviews)"
+        usersAlsoBagged = {}
+        similarProductRecs = similar_product_recommendations(productId)
+        
+        popular_products_adv_query = """
+                                        (SELECT Pro.ProductName, B.BrandName, Subquery.TimesBagged  
+                                        FROM (SELECT Bag.ProductId, COUNT(Bag.ProductId) as TimesBagged FROM BagItems Bag GROUP BY Bag.ProductId) Subquery 
+                                        LEFT OUTER JOIN Products Pro ON Pro.ProductId = Subquery.ProductId 
+                                        LEFT OUTER JOIN Brands B ON B.BrandId = Pro.BrandId
+                                        WHERE (Subquery.TimesBagged >= 0.8 * (SELECT MAX(Subquery2.TimesBagged) 
+                                        FROM (SELECT Bag.ProductId, COUNT(Bag.ProductId) as TimesBagged 
+                                        FROM BagItems Bag 
+                                        GROUP BY Bag.ProductId) Subquery2)))"""
+                                        
+        cursor.execute(popular_products_adv_query)
+        results = cursor.fetchall()
+        
+        for row in results:
+            if row[0] == productName:
+                isPopular = True
+        
+        users_also_bagged_adv_query = """
+                                        SELECT BI.ProductId AS OtherPID, P.ProductName, AVG(R.Rating) AS AverageRating, COUNT(R.ReviewId) AS NumberOfReviews 
+                                        FROM BagItems BI JOIN Products P ON BI.ProductId = P.ProductId 
+                                        JOIN 
+                                            (SELECT ProductId,MAX(ReviewId) AS LatestReviewId FROM Reviews GROUP BY ProductId) 
+                                            AS LatestReview ON BI.ProductId = LatestReview.ProductId 
+                                        JOIN Reviews R ON LatestReview.LatestReviewId = R.ReviewId WHERE BI.ProductId != %s AND BI.UserId IN (SELECT UserId 
+                                        FROM BagItems WHERE ProductId = %s) GROUP BY BI.ProductId, P.ProductName  ORDER BY BI.ProductId;"""
+        
+        cursor.execute(users_also_bagged_adv_query, (productId, productId))
+        results = cursor.fetchall()
+        
+        for row in results:
+            otherPid = row[0]
+            otherProductName = row[1]
+            otherAvgRating = float(row[2]) if isinstance(row[2], Decimal) else row[2]
+            otherNumReviews = row[3]
+            usersAlsoBagged[otherPid] = {"productName": otherProductName, "avgRating": otherAvgRating, "numReviews": otherNumReviews}
+
+        get_vc_query = """select ViewCount from Products where ProductId = %s;"""
+        cursor.execute(get_vc_query, (productId,))
+        view_count = cursor.fetchone()[0]
+
+        update_vc_query = """update Products set ViewCount = %s where ProductId = %s;"""
+        cursor.execute(update_vc_query, (view_count + 1, productId))
+
+        cursor.execute("""COMMIT;""")
+        
+        return jsonify({"productId": productId, 
+                        "productName": productName,
+                        "productURL": productURL,
+                        "size": size,
+                        "price": price, 
+                        "likeCount": likeCount, 
+                        "brandName": brandName, 
+                        "isPopular": isPopular,
+                        "avgRating": avgRating, 
+                        "viewCount": view_count,
+                        "totalNumReviews": totalNumReviews,
+                        "usersAlsoBagged": usersAlsoBagged,
+                        "reviewStringToDisplay": reviewStringToDisplay,
+                        "similarProductRecommendations": similarProductRecs}), 200
+    except Exception as e:
+        return jsonify({"error": f"Error getting product info: {str(e)}"}), 500
+
+** Trigger:
+
+DELIMITER //
+CREATE TRIGGER MaxItemsPerBagTrig 
+    BEFORE INSERT ON BagItems -- Event
+    FOR EACH ROW 
+    BEGIN 
+        SET @num_items = (SELECT Account.NumItemsPerUser FROM (SELECT UserId, COUNT(*) AS NumItemsPerUser 
+                            FROM BagItems GROUP BY UserId) Account WHERE Account.UserId = new.UserId); 
+        IF @num_items IS NOT NULL AND @num_items = 20 -- Condition
+            THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'User already has max 20 items in their bag'; -- Action
+        END IF; 
+    END//
+DELIMITER ;
+
+** Creative Component:
+
+@recommendations_bp.route('/kmeans', methods=['GET'])
+def kmeans():
+    """
+    Represent products with tag vectors, and make a matrix m where rows are ProductIds and columns are TagIds. 
+    The cell m[1][1] corresponds to ProductId 1 and TagId1, and its value is the weight of TagId 1, or 0 if ProductId 1 isn't 
+    tagged with TagId1
+    """
+    query = "SELECT TagId, ProductId, Standing from ProductTags NATURAL JOIN Tags"
+    cursor = sql_cursor()
+    cursor.execute(query)
+    results = cursor.fetchall()
+    
+    rownames = []
+    mat = [[0]* 8495 for i in range(8495)]
+    maxidx = 0
+    
+    # Generate vectors and store in matrix
+    for row in results:
+        tagId = row[0],
+        productId = str(row[1]),
+        standing = row[2]
+        if productId[0] in rownames:
+            idx = rownames.index(productId[0])
+        else:
+            idx = maxidx
+            maxidx += 1
+            rownames.append(productId[0])
+        
+        mat[idx][tagId[0]] = standing # Assign recommendation weight
+    
+    df = pd.DataFrame(mat) 
+    df.index = rownames
+
+    # Z-scores (x - µ) / s
+    scaler = StandardScaler()
+    df_scaled = scaler.fit_transform(df)
+    
+    # Generate 50 similarity clusters using standardized data
+    num_clusters = 50
+    kmeans = KMeans(n_clusters=num_clusters, random_state=42)
+    kmeans.fit(df_scaled)
+    
+    df['ProductId'] = rownames
+    df['Cluster'] = kmeans.labels_
+    res = df.iloc[:, [-2, -1]].rename_axis('ProductID')
+
+
+    res.columns = ['ProductId', 'Cluster']
+
+    """ One-time database insert
+    
+    for index, row in res.iterrows():
+        productId = row['ProductId']
+        clusterId = row['Cluster']
+        print(productId, clusterId)
+        
+        cursor = sql_cursor()
+        query = "INSERT INTO ProductClusters (ProductId, ClusterId) VALUES (%s, %s);"
+                    
+        data = (productId, clusterId)
+        cursor.execute(query, data)
+        db.commit()
+    """
+    
+    return [len(mat[0])]

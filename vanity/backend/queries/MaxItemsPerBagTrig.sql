@@ -10,3 +10,4 @@ CREATE TRIGGER MaxItemsPerBagTrig
             THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'User already has max 20 items in their bag'; -- Action
         END IF; 
     END//
+DELIMITER ;
