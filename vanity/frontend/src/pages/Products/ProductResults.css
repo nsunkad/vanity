@@ -19,6 +19,7 @@
 .results-container h1 {
     color: white;
     margin-bottom: 5px;
+    padding-bottom: 20px;
 }
 
 .results-container p {
@@ -57,4 +58,15 @@ tr:hover {
 td:last-child {
     cursor: pointer;
     text-align: center;
+}
+
+.icon-button {
+    color: white;
+    font-size: 20px;
+    background-color:#FFC0CB;
+    border: none;
+}
+
+.icon-button:hover {
+    background-color: #F3C2C9;
 }

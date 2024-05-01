@@ -1,0 +1,76 @@
+.product-page {
+    max-width: 800px;
+    margin: auto;
+    background-color: #f8c8dc;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.product-name {
+    font-size: 28px;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.brand-name {
+    color: #666;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.popular-product {
+    font-size: 16px;
+    color: #c04;
+    margin-bottom: 10px;
+}
+
+.price, .likes, .rating {
+    font-size: 16px;
+    margin-right: 10px;
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.add-to-bag-button {
+    background-color: #ff729f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.users-also-bagged, .reviews {
+    background-color: #fff;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+.users-also-bagged h2, .reviews h2 {
+    font-size: 18px;
+    color: #333;
+}
+
+/* Add styles for icons */
+.icon {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-right: 5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .product-page {
+        padding: 10px;
+    }
+
+    .add-to-bag-button {
+        width: 100%;
+    }
+}

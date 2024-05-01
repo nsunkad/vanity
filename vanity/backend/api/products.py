@@ -50,7 +50,7 @@ def get_product_info():
         likeCount = results[4]
         brandName = results[5]
         isPopular = False
-        avgRating = results[6]
+        avgRating = float(results[6])
         totalNumReviews = results[7]
         reviewStringToDisplay = f"{avgRating}/5 avg rating (from {totalNumReviews} reviews)"
         usersAlsoBagged = {}
@@ -171,12 +171,12 @@ def lookup_products():
     
     try:
         cursor = sql_cursor()
-        query = """SELECT ProductName, BrandName
-                    FROM Products natural join Brands
-                    WHERE MATCH (ProductName) AGAINST (%s WITH QUERY EXPANSION) limit 15;"""
+        query = """SELECT Pro.ProductId, Pro.ProductName, B.BrandName
+                    FROM Products Pro NATURAL JOIN Brands B
+                    WHERE MATCH (ProductName) AGAINST (%s WITH QUERY EXPANSION) LIMIT 15;"""
         cursor.execute(query, (search_string,))
         rows = cursor.fetchall()
-        results = [{"Name": row[0], "Brand": row[1]} for row in rows]
+        results = [{"ProductId": row[0], "ProductName": row[1], "BrandName": row[2]} for row in rows]
         return jsonify(results), 200
     except Exception as e:
         return jsonify({"error": f"Error querying database: {str(e)}"}), 500
