@@ -1,10 +1,15 @@
 .product-page {
     background-color: #FFC0CB;
-    height: 500vh;
+    height: 100%vh;
     width: 100%;
     margin: auto;
     padding: 20px;
     font-family: 'TypeWriter';
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
 }
 
 .product-outer {
@@ -13,12 +18,12 @@
     justify-content: space-between;
     align-items: top;
     margin-bottom: 40px;
-    margin-right: 40px;
     padding-top: 40px;
+    width: 90%
 }
 
 .product-page h1 {
-    font-size: 28px;
+    font-size: 36px;
     color: white;
     margin-bottom: 10px;
 }
@@ -55,10 +60,10 @@
     align-items: center;
     background-color: #b7717c;
     border: none;
-    height: 14vh;
-    width: 15vh;
+    height: 16vh;
+    width: 18vh;
     cursor: pointer;
-    margin-top: 20px;
+    margin-top: 40px;
 }
 
 .add-to-bag-outer:hover {
@@ -100,11 +105,23 @@
     color: #333;
 }
 
+.productpage-tables {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.productpage-left, .productpage-right {
+    flex: 1;
+}
+
 .product-table {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: left;
+    align-items: center;
     width: 80vh;
 }
 
@@ -114,7 +131,8 @@
 }
 
 .product-table table {
+    width: 100%;
     border: 2px solid #b7717c;
     font-size: 18px;
-    width: 80vh;
 }
+
