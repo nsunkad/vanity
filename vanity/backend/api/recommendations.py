@@ -11,7 +11,11 @@ recommendations_bp = Blueprint('recommendations', __name__)
 # DO NOT request this endpoint! It's a one time job - which will be scripted away in future
 @recommendations_bp.route('/kmeans', methods=['GET'])
 def kmeans():
-    # Get every single ProductId in
+    """
+    Represent products with tag vectors, and make a matrix m where rows are ProductIds and columns are TagIds. 
+    The cell m[1][1] corresponds to ProductId 1 and TagId1, and its value is the weight of TagId 1, or 0 if ProductId 1 isn't 
+    tagged with TagId1
+    """
     query = "SELECT TagId, ProductId, Standing from ProductTags NATURAL JOIN Tags"
     cursor = sql_cursor()
     cursor.execute(query)
@@ -21,29 +25,29 @@ def kmeans():
     mat = [[0]* 8495 for i in range(8495)]
     maxidx = 0
     
+    # Generate vectors and store in matrix
     for row in results:
         tagId = row[0],
         productId = str(row[1]),
         standing = row[2]
         if productId[0] in rownames:
-            # print("entered here", "tagId: ", tagId, "productId: ", productId[0], "index: ", rownames.index(productId[0]), "maxIdx: ", maxidx)
             idx = rownames.index(productId[0])
         else:
             idx = maxidx
             maxidx += 1
             rownames.append(productId[0])
         
-        mat[idx][tagId[0]] = standing
+        mat[idx][tagId[0]] = standing # Assign recommendation weight
     
     df = pd.DataFrame(mat) 
     df.index = rownames
 
+    # Z-scores (x - µ) / s
     scaler = StandardScaler()
     df_scaled = scaler.fit_transform(df)
     
+    # Generate 50 similarity clusters using standardized data
     num_clusters = 50
-    
-
     kmeans = KMeans(n_clusters=num_clusters, random_state=42)
     kmeans.fit(df_scaled)
     
