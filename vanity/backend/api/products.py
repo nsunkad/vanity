@@ -28,7 +28,7 @@ def get_product_info():
         # Get all the stats for a ProductId
         cursor = sql_cursor()
 
-        cursor.execute("""SET TRANSACTION ISOLATION LEVEL READ COMMITTED;""")
+        # default isolation level is READ COMMITTED
         cursor.execute("""START TRANSACTION;""")
         
         query = """SELECT Pro.ProductId, Pro.ProductName, Pro.Size, Pro.Price, Pro.LikeCount, B.BrandName, Res.AvgRating, Res.TotalNumReviews
@@ -120,6 +120,7 @@ def get_product_info():
                         "reviewStringToDisplay": reviewStringToDisplay,
                         "similarProductRecommendations": similarProductRecs}), 200
     except Exception as e:
+        print(e)
         return jsonify({"error": f"Error getting product info: {str(e)}"}), 500
 
 """
