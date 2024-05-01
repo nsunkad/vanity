@@ -16,11 +16,6 @@ begin
                     ORDER BY LEAST(LEVENSHTEIN(UserName, search_string), LEVENSHTEIN(FirstName, search_string), LEVENSHTEIN(LastName, search_string))
                     LIMIT 15;
     declare continue handler for not found set done = 1;
-    DECLARE EXIT HANDLER FOR SQLEXCEPTION
-    BEGIN
-        ROLLBACK;
-        RESIGNAL;
-    END;
 
     drop table if exists NewTable;
     
@@ -73,8 +68,6 @@ begin
     end repeat std_loop;
     
     close stdcur;
-    
-    COMMIT;
     
     select UserName, NumProductsInBag, Similarity from NewTable order by Ord;
     drop table NewTable;

@@ -1,3 +1,4 @@
+from decimal import Decimal
 from flask import request, Blueprint
 from conn import sql_cursor
 from flask import jsonify
@@ -26,6 +27,9 @@ def get_product_info():
     try:
         # Get all the stats for a ProductId
         cursor = sql_cursor()
+
+        cursor.execute("""SET TRANSACTION ISOLATION LEVEL READ COMMITTED;""")
+        cursor.execute("""START TRANSACTION;""")
         
         query = """SELECT Pro.ProductId, Pro.ProductName, Pro.Size, Pro.Price, Pro.LikeCount, B.BrandName, Res.AvgRating, Res.TotalNumReviews
                 FROM Products Pro LEFT OUTER JOIN 
@@ -50,12 +54,12 @@ def get_product_info():
         likeCount = results[4]
         brandName = results[5]
         isPopular = False
-        avgRating = results[6]
+        avgRating = float(results[6]) if isinstance(results[6], Decimal) else results[6]
+        print(avgRating)
         totalNumReviews = results[7]
         reviewStringToDisplay = f"{avgRating}/5 avg rating (from {totalNumReviews} reviews)"
         usersAlsoBagged = {}
         similarProductRecs = similar_product_recommendations(productId)
-        
         
         popular_products_adv_query = """
                                         (SELECT Pro.ProductName, B.BrandName, Subquery.TimesBagged  
@@ -89,10 +93,19 @@ def get_product_info():
         for row in results:
             otherPid = row[0]
             otherProductName = row[1]
-            otherAvgRating = row[2]
+            otherAvgRating = float(row[2]) if isinstance(row[2], Decimal) else row[2]
+            print(otherAvgRating)
             otherNumReviews = row[3]
             usersAlsoBagged[otherPid] = {"productName": otherProductName, "avgRating": otherAvgRating, "numReviews": otherNumReviews}
 
+        get_vc_query = """select ViewCount from Products where ProductId = %s;"""
+        cursor.execute(get_vc_query, (productId,))
+        view_count = cursor.fetchone()[0]
+
+        update_vc_query = """update Products set ViewCount = %s where ProductId = %s;"""
+        cursor.execute(update_vc_query, (view_count + 1, productId))
+
+        cursor.execute("""COMMIT;""")
         
         return jsonify({"productId": productId, 
                         "productName": productName,
