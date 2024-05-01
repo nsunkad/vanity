@@ -19,7 +19,7 @@ function FriendSearchPage() {
 
     const fetchSuggestions = () => {
         if (searchInput.length > 0) {
-            const queryParams = new URLSearchParams({search: searchInput, self: user.username}).toString();
+            const queryParams = new URLSearchParams({search: searchInput, self: user.userName}).toString();
             fetch(`http://localhost:8000/lookup-friends?${queryParams}`, {
                 method: 'GET',
                 headers: {

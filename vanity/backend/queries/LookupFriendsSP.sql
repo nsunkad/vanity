@@ -36,7 +36,7 @@ begin
     START TRANSACTION;
 
     select count(ProductId) into user_products
-    from Users join BagItems on Users.UserId = BagItems.UserId
+    from Users left outer join BagItems on Users.UserId = BagItems.UserId
     where UserName = curr_username
     group by UserName;
 
@@ -61,7 +61,8 @@ begin
             where UserName = curr_username
         ) as subquery;
 
-        if same_products / user_products > 0.85 then set simi = 5;
+        if user_products = 0 then set simi = 1;
+        elseif same_products / user_products > 0.85 then set simi = 5;
         elseif same_products / user_products > 0.65 then set simi = 4;
         elseif same_products / user_products > 0.5 then set simi = 3;
         elseif same_products / user_products > 0.35 then set simi = 2;
