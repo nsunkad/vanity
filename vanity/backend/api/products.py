@@ -55,7 +55,6 @@ def get_product_info():
         brandName = results[5]
         isPopular = False
         avgRating = float(results[6]) if isinstance(results[6], Decimal) else results[6]
-        print(avgRating)
         totalNumReviews = results[7]
         reviewStringToDisplay = f"{avgRating}/5 avg rating (from {totalNumReviews} reviews)"
         usersAlsoBagged = {}
@@ -94,7 +93,6 @@ def get_product_info():
             otherPid = row[0]
             otherProductName = row[1]
             otherAvgRating = float(row[2]) if isinstance(row[2], Decimal) else row[2]
-            print(otherAvgRating)
             otherNumReviews = row[3]
             usersAlsoBagged[otherPid] = {"productName": otherProductName, "avgRating": otherAvgRating, "numReviews": otherNumReviews}
 
@@ -116,6 +114,7 @@ def get_product_info():
                         "brandName": brandName, 
                         "isPopular": isPopular,
                         "avgRating": avgRating, 
+                        "viewCount": view_count + 1,
                         "totalNumReviews": totalNumReviews,
                         "usersAlsoBagged": usersAlsoBagged,
                         "reviewStringToDisplay": reviewStringToDisplay,
