@@ -51,6 +51,31 @@ const UpdateProfilePage = () => {
     });
   };
 
+  const handleDelete = () => {
+    if (!window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) return;
+
+    fetch('http://localhost:8000/delete-account', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ userId: user.userId }),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.error) {
+        alert('Failed to delete account: ' + data.error);
+      } else {
+        alert('Account deleted successfully');
+        updateUser(null); // Clear user context
+      }
+    })
+    .catch((error) => {
+      alert('An error occurred while deleting the account.');
+      console.error('Error:', error);
+    });
+  };
+
   return (
     <div className="profile-container">
       <HamburgerMenu />
@@ -63,6 +88,7 @@ const UpdateProfilePage = () => {
         <button type="submit" className="vanity-button" id="save">Save</button>
       </form>
       {successMessage && <p className="success-message">{successMessage}</p>} {/* Render success message if it exists */}
+      <button className="vanity-button" onClick={handleDelete} style={{marginTop: '20px'}}>DELETE ACCOUNT</button>
     </div>
   );
 };
