@@ -1,4 +1,5 @@
-# Team097-MojoDojoDB
+# Vanity
+
 CS 411 team project — a full-stack web application built with React, Python/Flask, and MySQL. Data source: https://www.kaggle.com/datasets/nadyinky/sephora-products-and-skincare-reviews
 
 Vanity is an informative, data-driven social media service for beauty and skincare product users. 
