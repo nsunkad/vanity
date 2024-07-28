@@ -1,4 +1,4 @@
-# [WIP] How to run this
+# [WIP - In Development] How to run this
 
 Start the MySQL instance on GCP console
 
@@ -6,14 +6,7 @@ Go to the database instance and add your computer's public IP address to the "Au
 
 This is just for development - when we set up our server instance on GCP we can do the above step with the server instance's IP address
 
-Dependencies to install:
-
-pip3 install flask
-pip3 install mysql
-pip3 install mysql-connector
-
-Replace `replace-with-pass` in conn.py with the real password
-
-# Run
-
-`python3 conn.py`
+How to run our app:
+1. Start the GCP instance
+2. In a terminal, `cd vanity/frontend` and then run the command `npm start`. The webpage should open in a browser tab
+3. In a new terminal, `cd vanity/backend/api`, then run the command `export FLASK_APP=app.py`, then run the command `python3 -m flask run --port=8000`
