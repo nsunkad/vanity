@@ -7,3 +7,6 @@ Vanity is an informative, data-driven social media service for beauty and skinca
 As a product discovery tool, Vanity enables users to search for and explore new products, view information about those products, and read product reviews written by real customers. Users can add their favorite products to their bag, and based on the product the user is browsing, Vanity also generates helpful product recommendations for the user.
 
 As a social media service, Vanity also allows users to search for friends on the app, view their friends’ makeup bags, and learn about the products their friends are using.
+
+
+<img width="1375" alt="signup" src="https://github.com/user-attachments/assets/9de675d0-f4ff-43cd-905a-4a08a5999c85">
